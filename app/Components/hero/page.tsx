@@ -1,80 +1,74 @@
+"use client";
 import React, { useState } from "react";
 
-interface ServiceTag {
-  name: string;
-  icon: string;
-}
+const services = [
+  {
+    category: "DIGITAL SOLUTIONS",
+    items: [
+      { icon: "⚡", label: "Cloud Services" },
+      { icon: "🤖", label: "AI Integration" },
+      { icon: "🔒", label: "Cybersecurity" },
+      { icon: "📊", label: "Data Analytics" },
+      { icon: "🔗", label: "API Solutions" },
+    ],
+  },
 
-interface ServiceCategory {
-  id: string;
-  title: string;
-  tags: ServiceTag[];
-}
+  {
+    category: "WEB DEVELOPMENT",
+    items: [
+      { icon: "💻", label: "Web Applications" },
+      { icon: "🛒", label: "E-commerce" },
+      { icon: "✏️", label: "CMS Development" },
+      { icon: "📱", label: "Responsive Design" },
+      { icon: "⚙️", label: "Web Hosting" },
+    ],
+  },
 
-export default function HeroSection() {
-  const [activeTab, setActiveTab] = useState<string>("digital-solutions");
+  {
+    category: "APP DEVELOPMENT",
+    items: [
+      { icon: "🍎", label: "iOS Apps" },
+      { icon: "🤖", label: "Android Apps" },
+      { icon: "🔄", label: "Cross-Platform" },
+      { icon: "🎨", label: "App Design" },
+      { icon: "🔧", label: "Maintenance" },
+    ],
+  },
 
-  const servicesData: ServiceCategory[] = [
-    {
-      id: "digital-solutions",
-      title: "DIGITAL SOLUTIONS",
-      tags: [
-        { name: "Cloud Services", icon: "☁️" },
-        { name: "AI Integration", icon: "⚙️" },
-        { name: "Cybersecurity", icon: "🔒" },
-        { name: "Data Analytics", icon: "📊" },
-      ],
-    },
-    {
-      id: "web-development",
-      title: "WEB DEVELOPMENT",
-      tags: [
-        { name: "Web Applications", icon: "💻" },
-        { name: "E-commerce", icon: "🛒" },
-        { name: "CMS Development", icon: "📝" },
-        { name: "Responsive Design", icon: "🖥️" },
-      ],
-    },
-    {
-      id: "app-development",
-      title: "APP DEVELOPMENT",
-      tags: [
-        { name: "iOS Apps", icon: "📱" },
-        { name: "Android Apps", icon: "🤖" },
-        { name: "Cross-Platform", icon: "🔄" },
-        { name: "App Design", icon: "🎨" },
-      ],
-    },
-    {
-      id: "digital-marketing",
-      title: "DIGITAL MARKETING",
-      tags: [
-        { name: "Social Media Marketing", icon: "📢" },
-        { name: "Paid Advertising", icon: "🎯" },
-        { name: "Content Marketing", icon: "📄" },
-      ],
-    },
-    {
-      id: "logo-design",
-      title: "LOGO DESIGN",
-      tags: [
-        { name: "Brand Identity", icon: "✨" },
-        { name: "Logo Design", icon: "📐" },
-        { name: "Brand Guidelines", icon: "📋" },
-        { name: "Business Cards", icon: "📇" },
-      ],
-    },
-    {
-      id: "form-builder",
-      title: "FORM BUILDER",
-      tags: [
-        { name: "Contact Forms", icon: "✉️" },
-        { name: "Quiz Forms", icon: "☑️" },
-        { name: "Registration Forms", icon: "👥" },
-        { name: "Poll Forms", icon: "🗳️" },
-      ],
-    },
-  ];
+  {
+    category: "DIGITAL MARKETING",
+    items: [
+      { icon: "📣", label: "Social Media Marketing" },
+      { icon: "🎯", label: "Paid Advertising" },
+      { icon: "📄", label: "Content Marketing" },
+      { icon: "🔍", label: "SEO Services" },
+      { icon: "📧", label: "Email Campaigns" },
+    ],
+  },
+  {
+    category: "LOGO DESIGN",
+    items: [
+      { icon: "🏢", label: "Brand Identity" },
+      { icon: "⚠️", label: "Logo Design" },
+      { icon: "📋", label: "Brand Guidelines" },
+      { icon: "💼", label: "Business Cards" },
+      { icon: "🎨", label: "Visual Assets" },
+    ],
+  },
+  {
+    category: "FORM BUILDER",
+    items: [
+      { icon: "📝", label: "Contact Forms" },
+      { icon: "✅", label: "Quiz Forms" },
+      { icon: "👤", label: "Registration Forms" },
+      { icon: "📊", label: "Poll Forms" },
+      { icon: "🔗", label: "Survey Builder" },
+    ],
+  },
+];
+
+export default function Hero() {
+  const [activeTab, setActiveTab] = useState(services[0].category);
 
   return (
     <section className="relative w-full min-h-screen bg-[#062615] bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#0d4722] via-[#062615] to-[#03140b] text-white overflow-hidden font-sans flex flex-col lg:flex-row items-stretch select-none">
@@ -113,33 +107,33 @@ export default function HeroSection() {
 
       <div className="flex-1 flex bg-white/[0.02] border-l border-white/10 backdrop-blur-md relative">
         <div className="w-[40%] border-r border-white/10 flex flex-col py-12">
-          {servicesData.map((category) => (
+          {services.map((category) => (
             <button
-              key={category.id}
-              onClick={() => setActiveTab(category.id)}
+              key={category.category}
+              onClick={() => setActiveTab(category.category)}
               className={`w-full text-left px-8 py-5 text-sm font-bold tracking-wider transition-all duration-300 relative border-b border-white/[0.03] last:border-0 ${
-                activeTab === category.id
+                activeTab === category.category
                   ? "text-[#39ef73] bg-white/[0.04]"
                   : "text-gray-400 hover:text-gray-200 hover:bg-white/[0.01]"
               }`}
             >
-              {activeTab === category.id && (
+              {activeTab === category.category && (
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#39ef73] shadow-[0_0_10px_rgba(57,239,115,0.8)]" />
               )}
-              {category.title}
+              {category.category}
             </button>
           ))}
         </div>
 
         <div className="w-[60%] p-12 overflow-y-auto flex flex-col justify-center">
-          {servicesData.map((category) => {
-            if (category.id !== activeTab) return null;
+          {services.map((category) => {
+            if (category.category !== activeTab) return null;
             return (
               <div
-                key={category.id}
+                key={category.category}
                 className="flex flex-wrap gap-4 animate-[fadeInRight_0.4s_ease-out]"
               >
-                {category.tags.map((tag, idx) => (
+                {category.items.map((tag, idx) => (
                   <div
                     key={idx}
                     className="flex items-center gap-3 px-5 py-3 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-xl transition-all duration-300 hover:bg-white/[0.1] hover:border-[#39ef73]/40 hover:-translate-y-1 cursor-default group"
@@ -148,7 +142,7 @@ export default function HeroSection() {
                       {tag.icon}
                     </span>
                     <span className="text-sm font-medium text-gray-200 group-hover:text-white transition-colors duration-300">
-                      {tag.name}
+                      {tag.label}
                     </span>
                   </div>
                 ))}
