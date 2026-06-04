@@ -1,9 +1,5 @@
-
+import HeroSection from './Components/hero/page';
 
 export default function Home() {
-  return (
-    <div className="">
-      
-    </div>
-  );
+  return <HeroSection />;
 }
