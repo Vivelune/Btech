@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRef, useEffect } from "react";
 
 const services = [
   {
@@ -66,6 +67,26 @@ const services = [
 ];
 
 export default function HeroSection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('scroll-visible');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => {
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
+    };
+  }, []);
+
   return (
     <>
       <style>{`
@@ -74,12 +95,34 @@ export default function HeroSection() {
           0%   { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
+        @keyframes fadeInDown {
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInRight {
+          from { opacity: 0; transform: translateX(50px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes scaleIn {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
         .scroll-track { animation: scrollPills 22s linear infinite; }
         .scroll-track:hover { animation-play-state: paused; }
+        .hero-badge { animation: fadeInDown 0.6s ease-out; }
+        .hero-title { animation: fadeInUp 0.8s ease-out 0.2s both; }
+        .hero-desc { animation: fadeInUp 0.8s ease-out 0.4s both; }
+        .hero-btn { animation: scaleIn 0.6s ease-out 0.6s both; }
+        .hero-services { animation: slideInRight 1s ease-out 0.3s both; }
       `}</style>
 
       <section
-        className="relative w-full overflow-hidden flex min-h-0 flex-col lg:flex-row"
+        ref={sectionRef}
+        className="relative w-full overflow-hidden flex min-h-0 flex-col lg:flex-row scroll-section"
         style={{
           background: "#0a1f14",
           fontFamily: "'DM Sans', sans-serif",
@@ -116,7 +159,7 @@ export default function HeroSection() {
 
         <div className="relative z-10 flex flex-col justify-center gap-7 px-6 pt-20 pb-12 sm:px-10 lg:flex-1 lg:px-16 lg:py-24 xl:px-20">
           <span
-            className="flex w-fit items-center gap-2 rounded-full px-4 py-[7px] font-medium tracking-wide backdrop-blur-md"
+            className="hero-badge flex w-fit items-center gap-2 rounded-full px-4 py-[7px] font-medium tracking-wide backdrop-blur-md"
             style={{
               fontSize: "clamp(11px,1.2vw,13px)",
               letterSpacing: "0.05em",
@@ -130,7 +173,7 @@ export default function HeroSection() {
           </span>
 
           <h1
-            className="m-0"
+            className="hero-title m-0"
             style={{ fontFamily: "'geometric', sans-serif", lineHeight: 1.04, letterSpacing: "-0.02em" }}
           >
             <span
@@ -153,7 +196,7 @@ export default function HeroSection() {
           </h1>
 
           <p
-            className="m-0 max-w-[400px]"
+            className="hero-desc m-0 max-w-[400px]"
             style={{
               fontSize: "clamp(14px,1.8vw,17px)",
               lineHeight: 1.7,
@@ -166,7 +209,7 @@ export default function HeroSection() {
 
           <Link
             href="#"
-            className="flex w-fit items-center gap-2.5 rounded-full font-bold no-underline transition-all duration-200 hover:-translate-y-0.5"
+            className="hero-btn flex w-fit items-center gap-2.5 rounded-full font-bold no-underline transition-all duration-200 hover:-translate-y-0.5"
             style={{
               fontSize: "clamp(14px,1.6vw,16px)",
               letterSpacing: "0.01em",
@@ -181,7 +224,7 @@ export default function HeroSection() {
         </div>
 
         <div
-          className="relative z-10 flex flex-col justify-center overflow-hidden lg:flex-1 min-h-0"
+          className="hero-services relative z-10 flex flex-col justify-center overflow-hidden lg:flex-1 min-h-0"
           style={{
             borderTop: "1px solid rgba(255,255,255,.07)",
             maxHeight: "min(100vh, 100dvh)",
