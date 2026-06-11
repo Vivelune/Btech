@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 interface NavItem {
   name: string;
   link: string;
-  icon?: JSX.Element;
+  icon?: React.ReactElement;
   drawerContent?: {
     title: string;
     description?: string;
