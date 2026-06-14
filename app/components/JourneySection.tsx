@@ -51,11 +51,11 @@ export default function JourneySection() {
 
       <div
         ref={sectionRef}
-        className="fade-in-section relative flex min-h-screen w-full items-center justify-center p-4 sm:p-6 scroll-section"
+        className="fade-in-section relative flex w-full min-h-[72vh] items-center justify-center px-4 py-10 sm:px-6 sm:py-12 scroll-section animate-pop-in"
         style={{
-          background: "#edf5ef",
+          background: "radial-gradient(circle at top, rgba(70,160,110,0.12), rgba(238,245,239,0.96) 55%, #edf6ef 100%)",
           fontFamily: "'DM Sans', sans-serif",
-          minHeight: "min(100vh, 100dvh)",
+          minHeight: "min(72vh, 100dvh)",
         }}
       >
         <div

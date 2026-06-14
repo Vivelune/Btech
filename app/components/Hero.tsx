@@ -65,7 +65,8 @@ const services = [
 export default function Hero() {
   const [activeTab, setActiveTab] = useState(services[0].category);
   return (
-    <section className="relative w-full min-h-screen bg-[#062615] bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#0d4722] via-[#062615] to-[#03140b] text-white overflow-hidden font-sans flex flex-col lg:flex-row items-stretch select-none">
+    <section className="relative w-full min-h-screen overflow-hidden text-white font-sans animate-pop-in"
+      style={{ background: "radial-gradient(circle at top left, rgba(82,255,162,0.18), rgba(6,38,17,0.96) 35%, #04120b 100%)" }}>
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1920&q=20')] bg-cover bg-center opacity-10 mix-blend-overlay pointer-events-none" />
       
       <div className="flex-1 flex flex-col justify-center px-8 sm:px-16 lg:px-24 py-20 z-10 max-w-3xl">
@@ -95,7 +96,7 @@ export default function Hero() {
           </svg>
         </button>
       </div>
-      <div className="flex-1 flex bg-white/[0.02] border-l border-white/10 backdrop-blur-md relative">
+      <div className="flex-1 flex bg-white/[0.06] border-l border-white/10 backdrop-blur-xl relative">
         <div className="w-[40%] border-r border-white/10 flex flex-col py-12">
           {services.map((category) => (
             <button

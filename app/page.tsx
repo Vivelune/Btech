@@ -32,16 +32,8 @@ import MobileAppSection from './components/MobileAppSection';
 import DigitalMarketingSection from './components/DigitalMarketingSection';
 import RevolutionCard from './components/RevolutionCard';
 import JourneySection from './components/JourneySection';
-
-const Divider = () => (
-  <div
-    style={{
-      height: '1px',
-      background: 'linear-gradient(90deg, transparent, rgba(58,158,95,.2), transparent)',
-      width: '100%',
-    }}
-  />
-);
+import Footer from './components/Footer';
+import BoldVisionSection from './components/BoldVisionSection';
 
 const ScrollProgressBar = () => {
   const [scrollProgress, setScrollProgress] = React.useState(0);
@@ -479,16 +471,13 @@ export default function MainPage() {
       <FloatingNav navItems={navItems} contactDrawerContent={contactCustomData} />
       <ScrollProgressBar />
       <Hero />
-      <Divider />
+      <BoldVisionSection />
       <WebDevCard />
-      <Divider />
       <MobileAppSection />
-      <Divider />
       <DigitalMarketingSection />
-      <Divider />
       <RevolutionCard />
-      <Divider />
       <JourneySection />
+      <Footer />
     </>
   );
 }

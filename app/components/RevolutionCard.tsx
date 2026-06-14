@@ -48,11 +48,11 @@ export default function RevolutionCard() {
 
       <div
         ref={sectionRef}
-        className="fade-in-section flex min-h-screen w-full items-center justify-center p-4 sm:p-6 scroll-section"
+        className="fade-in-section animate-pop-in flex w-full min-h-[68vh] items-center justify-center px-4 py-10 sm:px-6 sm:py-12 scroll-section"
         style={{
-          background: "#0d1f15",
+          background: "radial-gradient(circle at center, rgba(29,78,23,0.22), rgba(8,18,12,0.98) 58%, #020805 100%)",
           fontFamily: "'DM Sans', sans-serif",
-          minHeight: "min(100vh, 100dvh)",
+          minHeight: "min(68vh, 100dvh)",
         }}
       >
         <div

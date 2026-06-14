@@ -62,11 +62,11 @@ export default function MobileAppSection() {
 
       <section
         ref={sectionRef}
-        className="fade-in-section flex min-h-screen w-full flex-col items-center justify-center gap-8 px-4 py-12 sm:px-6 lg:flex-row lg:gap-14 lg:px-16 lg:py-16 xl:px-24 scroll-section"
+        className="fade-in-section animate-pop-in flex w-full min-h-[70vh] flex-col items-center justify-center gap-8 px-4 py-10 sm:px-6 lg:flex-row lg:gap-12 lg:px-16 lg:py-12 xl:px-20 scroll-section"
         style={{
-          background: "#eaf5ee",
+          background: "radial-gradient(circle at top right, rgba(56,189,248,0.12), rgba(8,35,27,0.96) 40%, #071714 100%)",
           fontFamily: "'DM Sans', sans-serif",
-          minHeight: "min(100vh, 100dvh)",
+          minHeight: "min(70vh, 100dvh)",
         }}
       >
         <div className="flex w-full flex-col gap-5 lg:flex-1 content-left">
@@ -74,7 +74,7 @@ export default function MobileAppSection() {
             className="m-0 font-extrabold leading-tight tracking-tight"
             style={{
               fontSize: "clamp(28px,5vw,48px)",
-              color: "#0d2318",
+              color: "#f1f7f4",
               fontFamily: "'geometric', sans-serif",
             }}
           >
@@ -83,7 +83,7 @@ export default function MobileAppSection() {
 
           <p
             className="m-0 leading-relaxed"
-            style={{ fontSize: "clamp(14px,1.8vw,17px)", color: "#2e4d38" }}
+            style={{ fontSize: "clamp(14px,1.8vw,17px)", color: "#ebe8e6" }}
           >
             Build powerful mobile experiences with native iOS and Android
             applications. Our expert developers create high-performance apps
@@ -96,7 +96,7 @@ export default function MobileAppSection() {
               <div
                 key={item}
             className="feature-item flex items-center gap-2.5 font-medium"
-                style={{ fontSize: "clamp(13px,1.6vw,15px)", color: "#1a3a24" }}
+                style={{ fontSize: "clamp(13px,1.6vw,15px)", color: "#f18406" }}
               >
                 <span
                   className="h-2.5 w-2.5 shrink-0 rounded-full"
@@ -110,7 +110,7 @@ export default function MobileAppSection() {
           <Link
             href="#"
             className="btn-link mt-1 inline-flex items-center gap-1.5 font-semibold no-underline transition-[gap] duration-200 hover:gap-3"
-            style={{ fontSize: "clamp(13px,1.6vw,15px)", color: "#3a9e5f" }}
+            style={{ fontSize: "clamp(13px,1.6vw,15px)", color: "#f18406" }}
           >
             Explore services in menu <span>→</span>
           </Link>
