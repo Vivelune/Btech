@@ -1,190 +1,118 @@
 "use client";
 
+import { motion } from "framer-motion";
+import { Compass, Mail, Phone, ArrowUpRight, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { useRef, useEffect } from "react";
 
-export default function JourneySection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('scroll-visible');
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => {
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
-    };
-  }, []);
-
+export default function GlassyJourneySection() {
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@800&family=DM+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap');
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes scaleIn {
-          from { opacity: 0; transform: scale(0.8); }
-          to { opacity: 1; transform: scale(1); }
-        }
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(40px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .fade-in-section { animation: fadeInUp 0.8s ease-out; }
-        .emoji-icon { animation: scaleIn 0.6s ease-out 0.2s both; }
-        .journey-title { animation: slideUp 0.8s ease-out 0.4s both; }
-        .journey-desc { animation: slideUp 0.8s ease-out 0.5s both; }
-        .journey-quote { animation: slideUp 0.8s ease-out 0.6s both; }
-        .btn-primary { animation: slideUp 0.8s ease-out 0.7s both; }
-        .btn-secondary { animation: slideUp 0.8s ease-out 0.8s both; }
-      `}</style>
+    <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-slate-900 px-4 py-20 dark:bg-zinc-950 sm:px-6 lg:px-16">
+      
+      {/* 1. Ambient Background Textures (Simulating image_cef666.jpg sunset gradients) */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.08),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(245,158,11,0.05),transparent_50%)]" />
+      
+      {/* Structural grid lines from your main theme */}
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:40px_40px]" />
 
-      <div
-        ref={sectionRef}
-        className="fade-in-section relative flex min-h-screen w-full items-center justify-center p-4 sm:p-6 scroll-section"
-        style={{
-          background: "#edf5ef",
-          fontFamily: "'DM Sans', sans-serif",
-          minHeight: "min(100vh, 100dvh)",
-        }}
-      >
-        <div
-          className="flex w-full flex-col items-center gap-6 text-center"
-          style={{ maxWidth: "min(480px,100%)" }}
-        >
-          <div
-            className="emoji-icon flex items-center justify-center rounded-2xl sm:rounded-[24px]"
-            style={{
-              width: "clamp(80px,18vw,100px)",
-              height: "clamp(80px,18vw,100px)",
-              fontSize: "clamp(36px,10vw,48px)",
-              background: "linear-gradient(145deg,#3a9e5f,#2d7d4a)",
-              boxShadow: "0 12px 40px rgba(58,158,95,.3)",
-            }}
+      {/* Massive Editorial Background Type (Layered underneath the main glass sheet) */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none text-[15vw] font-black tracking-tighter text-white/[0.02] dark:text-zinc-900/10 uppercase whitespace-nowrap z-0">
+        02 STUDIO
+      </div>
+
+      {/* 2. Premium Frosted Glass Card Wrapper */}
+      <div className="relative z-10 w-full max-w-xl rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-8 backdrop-blur-2xl shadow-[0_24px_80px_rgba(0,0,0,0.4)] dark:border-zinc-800/40 dark:bg-zinc-950/20 sm:p-12 lg:p-16">
+        
+        {/* Internal Core Glow Source */}
+        <div className="absolute -top-20 left-1/2 -translate-x-1/2 h-40 w-40 rounded-full bg-emerald-500/20 blur-[60px] dark:bg-emerald-500/10" />
+
+        <div className="flex w-full flex-col items-center text-center space-y-8">
+          
+          {/* Glass Shield Icon Holder */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.05] shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] backdrop-blur-md dark:border-zinc-800 dark:bg-black/40"
           >
-            🚀
+            <Compass className="h-7 w-7 animate-spin-slow text-emerald-400" />
+          </motion.div>
+
+          {/* Typography Layer */}
+          <div className="space-y-4">
+            <motion.h2
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl lg:leading-[1.1]"
+            >
+              Ready to start your{" "}
+              <span className="relative inline-block font-black text-transparent bg-clip-text bg-[length:200%_auto] bg-[linear-gradient(110deg,#34d399,#10b981,#34d399,#0d9488,#34d399)] animate-shimmer">
+                journey?
+              </span>
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="mx-auto max-w-sm text-sm leading-relaxed text-slate-400 dark:text-zinc-400"
+            >
+              Let&apos;s create something extraordinary together. Your vision combined with our technical execution strategy.
+            </motion.p>
           </div>
 
-          <h2
-            className="journey-title m-0 font-extrabold leading-[1.1] tracking-tight"
-            style={{
-              fontSize: "clamp(30px,8vw,58px)",
-              color: "#0d1f14",
-              fontFamily: "'geometric', sans-serif",
-            }}
+          {/* Hyper-minimal micro-quote pill matching details from image_cef666.jpg */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="rounded-full border border-white/5 bg-white/[0.02] px-4 py-1.5 backdrop-blur-sm"
           >
-            Ready to start
-            <br />
-            your <span style={{ color: "#3a9e5f" }}>journey</span>?
-          </h2>
+            <p className="text-[11px] font-mono tracking-wider uppercase text-slate-400 dark:text-zinc-500 flex items-center justify-center gap-2">
+              <span>// Vision into reality</span>
+              <Sparkles className="h-3 w-3 text-amber-400 shrink-0" />
+            </p>
+          </motion.div>
 
-          <p
-            className="journey-desc m-0 leading-relaxed"
-            style={{ fontSize: "clamp(15px,3.5vw,22px)", color: "#2c4a36" }}
+          {/* Action Stack */}
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="mt-2 flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-center"
           >
-            Let&apos;s create something extraordinary together. Your vision,
-            our expertise.
-          </p>
-
-          <p
-            className="journey-quote m-0 italic leading-relaxed px-2"
-            style={{ fontSize: "clamp(13px,3vw,19px)", color: "#4a6b57" }}
-          >
-            &ldquo;The future belongs to those who believe in the beauty of
-            their dreams.&rdquo; – Let&apos;s make yours a reality.{" "}
-            <span className="not-italic" style={{ color: "#d4a017" }}>
-              ✨
-            </span>
-          </p>
-
-          <div className="mt-2 flex w-full flex-col gap-3 sm:gap-3.5">
             <Link
               href="#"
-              className="btn-primary flex w-full items-center justify-center gap-2.5 rounded-full border-0 font-bold text-white no-underline transition-all duration-200 hover:-translate-y-0.5"
-              style={{
-                padding: "clamp(14px,3vw,22px) clamp(20px,5vw,32px)",
-                fontSize: "clamp(14px,3vw,18px)",
-                background: "#3a9e5f",
-                boxShadow: "0 8px 30px rgba(58,158,95,.35)",
-              }}
+              className="group flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 shadow-lg shadow-black/20 transition-all duration-200 hover:bg-slate-100 hover:scale-[1.02]"
             >
               Get Started Today
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <rect x="2" y="4" width="20" height="16" rx="2" />
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-              </svg>
+              <Mail className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Link>
 
             <Link
               href="tel:+12158637222"
-              className="btn-secondary flex w-full items-center justify-center gap-2.5 rounded-full font-semibold no-underline transition-all duration-200 hover:-translate-y-0.5"
-              style={{
-                padding: "clamp(14px,3vw,22px) clamp(20px,5vw,32px)",
-                fontSize: "clamp(14px,3vw,18px)",
-                background: "rgba(255,255,255,.6)",
-                border: "1.5px solid rgba(58,158,95,.25)",
-                color: "#2c4a36",
-              }}
+              className="group flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-6 py-3.5 text-sm font-medium text-white backdrop-blur-md transition-all duration-200 hover:bg-white/[0.08]"
             >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#3a9e5f"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.44 2 2 0 0 1 3.57 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6 6l1.27-.9a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z" />
-              </svg>
+              <Phone className="h-4 w-4 text-emerald-400" />
               +1 215 863 7222
             </Link>
-          </div>
-        </div>
+          </motion.div>
 
-        <button
-          className="fixed bottom-6 right-6 flex cursor-pointer items-center justify-center rounded-full border-0 transition-all duration-200 hover:scale-110"
-          style={{
-            width: "clamp(48px,10vw,60px)",
-            height: "clamp(48px,10vw,60px)",
-            background: "#3b5bdb",
-            boxShadow: "0 8px 24px rgba(59,91,219,.4)",
-          }}
-        >
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="white"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-          </svg>
-        </button>
+        </div>
       </div>
-    </>
+
+      {/* Floating System Glass Trigger Utility Button */}
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="fixed bottom-6 right-6 flex h-12 w-12 cursor-pointer items-center justify-center rounded-xl border border-white/10 bg-white/[0.05] shadow-2xl backdrop-blur-xl transition-colors hover:bg-white/[0.1]"
+      >
+        <ArrowUpRight className="h-5 w-5 text-white" />
+      </motion.button>
+    </section>
   );
 }
