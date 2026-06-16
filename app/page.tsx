@@ -32,6 +32,8 @@ import MobileAppSection from './components/MobileAppSection';
 import DigitalMarketingSection from './components/DigitalMarketingSection';
 import RevolutionCard from './components/RevolutionCard';
 import JourneySection from './components/JourneySection';
+import BoldVisionSection from './components/BoldVisionSection';
+import Footer from './components/Footer';
 
 const Divider = () => (
   <div
@@ -479,16 +481,13 @@ export default function MainPage() {
       <FloatingNav navItems={navItems} contactDrawerContent={contactCustomData} />
       <ScrollProgressBar />
       <Hero />
-      <Divider />
+      <BoldVisionSection />
       <WebDevCard />
-      <Divider />
       <MobileAppSection />
-      <Divider />
       <DigitalMarketingSection />
-      <Divider />
       <RevolutionCard />
-      <Divider />
       <JourneySection />
+      <Footer />
     </>
   );
 }
