@@ -1,163 +1,92 @@
-// This component has a lot of white space and it is very basic
+//MobileAppSection
+
 
 "use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useEffect } from "react";
-
-const features = ["iOS Development", "Android Apps", "Cross-Platform", "App Store Optimization"];
-
+import { Smartphone, Layers, Zap, Search } from "lucide-react";
+const features = [
+  { title: "Native iOS & Android", icon: <Smartphone size={20} /> },
+  { title: "Scalable Architecture", icon: <Layers size={20} /> },
+  { title: "High-Speed Performance", icon: <Zap size={20} /> },
+  { title: "App Store Optimization", icon: <Search size={20} /> }
+];
 export default function MobileAppSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-
+  const sectionRef = useRef<HTMLElement | null>(null);
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('scroll-visible');
-          }
+          if (entry.isIntersecting) entry.target.classList.add('reveal-active');
         });
       },
       { threshold: 0.1 }
     );
-
     if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => {
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
-    };
+    return () => { if (sectionRef.current) observer.unobserve(sectionRef.current); };
   }, []);
-
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@800&family=DM+Sans:wght@400;500;600&display=swap');
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideInLeft {
-          from { opacity: 0; transform: translateX(-40px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes slideInRight {
-          from { opacity: 0; transform: translateX(40px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes staggerItem {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .fade-in-section { animation: fadeInUp 0.8s ease-out; }
-        .content-left { animation: slideInLeft 0.8s ease-out 0.2s both; }
-        .content-right { animation: slideInRight 0.8s ease-out 0.2s both; }
-        .feature-item { animation: staggerItem 0.6s ease-out forwards; }
-        .feature-item:nth-child(1) { animation-delay: 0.4s; }
-        .feature-item:nth-child(2) { animation-delay: 0.5s; }
-        .feature-item:nth-child(3) { animation-delay: 0.6s; }
-        .feature-item:nth-child(4) { animation-delay: 0.7s; }
-        .btn-link { animation: fadeInUp 0.8s ease-out 0.8s both; }
-      `}</style>
-
-      <section
-        ref={sectionRef}
-        className="fade-in-section flex min-h-screen w-full flex-col items-center justify-center gap-8 px-4 py-12 sm:px-6 lg:flex-row lg:gap-14 lg:px-16 lg:py-16 xl:px-24 scroll-section"
-        style={{
-          background: "#eaf5ee",
-          fontFamily: "'DM Sans', sans-serif",
-          minHeight: "min(100vh, 100dvh)",
-        }}
-      >
-        <div className="flex w-full flex-col gap-5 lg:flex-1 content-left">
-          <h2
-            className="m-0 font-extrabold leading-tight tracking-tight"
-            style={{
-              fontSize: "clamp(28px,5vw,48px)",
-              color: "#0d2318",
-              fontFamily: "'geometric', sans-serif",
-            }}
-          >
-            Mobile App Development
-          </h2>
-
-          <p
-            className="m-0 leading-relaxed"
-            style={{ fontSize: "clamp(14px,1.8vw,17px)", color: "#2e4d38" }}
-          >
-            Build powerful mobile experiences with native iOS and Android
-            applications. Our expert developers create high-performance apps
-            that users love, with seamless functionality and beautiful
-            interfaces.
+    <section
+      ref={sectionRef}
+      className="relative w-full py-32 px-6 lg:px-24 bg-slate-50 flex items-center justify-center overflow-hidden opacity-0 translate-y-10 transition-all duration-[1.5s] reveal-container"
+    >
+      {/* Background Decorative Element */}
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[120px]" />
+      
+      <div className="max-w-7xl w-full flex flex-col lg:flex-row items-center gap-20 z-10">
+        
+        {/* Content Side */}
+        <div className="flex-1 flex flex-col gap-8">
+          <div className="space-y-4">
+            <span className="text-emerald-600 font-bold tracking-[0.2em] uppercase text-[12px]">Advanced Mobile Solutions</span>
+            <h2 className="text-5xl lg:text-6xl font-extrabold text-slate-950 tracking-tight leading-[1.1]">
+              Engineered for <br/>
+              <span className="text-emerald-600">The Digital Horizon.</span>
+            </h2>
+          </div>
+          <p className="text-lg text-slate-600 leading-relaxed max-w-lg">
+            We transform complex business requirements into intuitive, high-performance mobile applications. Built for security, speed, and seamless user experiences.
           </p>
-
-          <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {features.map((item) => (
-              <div
-                key={item}
-            className="feature-item flex items-center gap-2.5 font-medium"
-                style={{ fontSize: "clamp(13px,1.6vw,15px)", color: "#1a3a24" }}
-              >
-                <span
-                  className="h-2.5 w-2.5 shrink-0 rounded-full"
-                  style={{ background: "#3a9e5f" }}
-                />
-                {item}
+              <div key={item.title} className="flex items-center gap-4 bg-white border border-slate-200 p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                <div className="text-emerald-600 bg-emerald-50 p-2.5 rounded-xl">
+                  {item.icon}
+                </div>
+                <span className="text-slate-800 font-semibold text-sm">{item.title}</span>
               </div>
             ))}
           </div>
-
-          <Link
-            href="#"
-            className="btn-link mt-1 inline-flex items-center gap-1.5 font-semibold no-underline transition-[gap] duration-200 hover:gap-3"
-            style={{ fontSize: "clamp(13px,1.6vw,15px)", color: "#3a9e5f" }}
-          >
-            Explore services in menu <span>→</span>
+          <Link href="/services" className="inline-block mt-4 text-emerald-700 font-bold underline underline-offset-8 decoration-emerald-500">
+            See our development process
           </Link>
         </div>
-
-        <div className="content-right relative w-full lg:flex-1">
-          <div
-            className="absolute left-3 top-3 z-10 flex items-center justify-center rounded-[14px]"
-            style={{
-              width: "clamp(44px,7vw,56px)",
-              height: "clamp(44px,7vw,56px)",
-              background: "#3a9e5f",
-              boxShadow: "0 6px 20px rgba(58,158,95,.35)",
-            }}
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-              <line x1="12" y1="18" x2="12.01" y2="18" />
-            </svg>
-          </div>
-
-          <div
-            className="relative overflow-hidden rounded-2xl"
-            style={{
-              height: "clamp(200px,38vw,360px)",
-              boxShadow: "0 16px 48px rgba(0,60,20,.12)",
-            }}
-          >
-            <Image
-              src="/mobiledev.avif"
-              alt="Mobile App Development"
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
+        {/* Visual Side */}
+        <div className="flex-1 relative w-full">
+          <div className="relative rounded-[2rem] border border-white bg-white/60 backdrop-blur-3xl p-4 shadow-[0_20px_50px_rgba(5,150,105,0.15)]">
+            <div className="relative aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-slate-200">
+              <Image
+                src="/mobiledev.jpg"
+                alt="Mobile App Development"
+                fill
+                priority
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+            {/* Glass Badge */}
+            <div className="absolute -bottom-6 -left-6 bg-slate-900 text-white p-6 rounded-3xl shadow-xl hidden lg:block">
+              <p className="text-[10px] uppercase tracking-widest font-bold opacity-80">Development Suite</p>
+              <p className="text-2xl font-bold">State-of-the-art</p>
+            </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+      <style jsx global>{`
+        .reveal-container { transition: opacity 1.5s, transform 1.5s; }
+        .reveal-active { opacity: 1 !important; transform: translateY(0) !important; }
+      `}</style>
+    </section>
   );
 }

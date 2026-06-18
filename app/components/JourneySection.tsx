@@ -17,7 +17,7 @@ export default function GlassyJourneySection() {
 
       {/* Massive Editorial Background Type (Layered underneath the main glass sheet) */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none text-[15vw] font-black tracking-tighter text-white/[0.02] dark:text-zinc-900/10 uppercase whitespace-nowrap z-0">
-        02 STUDIO
+        BTECH WORKS
       </div>
 
       {/* 2. Premium Frosted Glass Card Wrapper */}

@@ -1,161 +1,77 @@
-// This component has a lot of white space and it is very basic, all the components look the same 
-"use client";
+//Digital Marketing Section 
 
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useEffect } from "react";
-
-const features = ["Social Media", "PPC Campaigns", "Content Marketing", "Analytics & Reporting"];
-
+import { TrendingUp, Megaphone, FileText, BarChart3, ArrowRight } from "lucide-react";
+const features = [
+  { name: "Social Media", icon: Megaphone, color: "text-emerald-600" },
+  { name: "PPC Campaigns", icon: TrendingUp, color: "text-amber-600" },
+  { name: "Content Strategy", icon: FileText, color: "text-emerald-600" },
+  { name: "Live Analytics", icon: BarChart3, color: "text-blue-600" },
+];
 export default function DigitalMarketingSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-
+  const sectionRef = useRef<HTMLElement | null>(null);
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('scroll-visible');
-          }
+          if (entry.isIntersecting) entry.target.classList.add("reveal-active");
         });
       },
       { threshold: 0.1 }
     );
-
     if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => {
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
-    };
+    return () => { if (sectionRef.current) observer.unobserve(sectionRef.current); };
   }, []);
-
   return (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@800&family=DM+Sans:wght@400;500;600&display=swap');
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideInLeft {
-          from { opacity: 0; transform: translateX(-40px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes slideInRight {
-          from { opacity: 0; transform: translateX(40px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes staggerItem {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .fade-in-section { animation: fadeInUp 0.8s ease-out; }
-        .content-left { animation: slideInLeft 0.8s ease-out 0.2s both; }
-        .content-right { animation: slideInRight 0.8s ease-out 0.2s both; }
-        .feature-item { animation: staggerItem 0.6s ease-out forwards; }
-        .feature-item:nth-child(1) { animation-delay: 0.4s; }
-        .feature-item:nth-child(2) { animation-delay: 0.5s; }
-        .feature-item:nth-child(3) { animation-delay: 0.6s; }
-        .feature-item:nth-child(4) { animation-delay: 0.7s; }
-        .btn-link { animation: fadeInUp 0.8s ease-out 0.8s both; }
-      `}</style>
-
-      <section
-        ref={sectionRef}
-        className="fade-in-section flex min-h-screen w-full flex-col items-center justify-center gap-8 px-4 py-12 sm:px-6 lg:flex-row lg:gap-14 lg:px-16 lg:py-16 xl:px-24 scroll-section"
-        style={{
-          background: "#eaf4f4",
-          fontFamily: "'DM Sans', sans-serif",
-          minHeight: "min(100vh, 100dvh)",
-        }}
-      >
-        <div className="flex w-full flex-col gap-5 lg:flex-1 content-left">
-          <h2
-            className="m-0 font-extrabold leading-tight tracking-tight"
-            style={{
-              fontSize: "clamp(28px,5vw,48px)",
-              color: "#0d2318",
-              fontFamily: "'geometric', sans-serif",
-            }}
-          >
-            Digital Marketing
-          </h2>
-
-          <p
-            className="m-0 leading-relaxed"
-            style={{ fontSize: "clamp(14px,1.8vw,17px)", color: "#2e4a45" }}
-          >
-            Grow your business with data-driven marketing strategies. Our
-            comprehensive digital marketing services help you reach your target
-            audience and achieve measurable ROI across all channels.
-          </p>
-
-          <div className="grid grid-cols-2 gap-x-4 gap-y-3">
-            {features.map((item) => (
-              <div
-                key={item}
-            className="feature-item flex items-center gap-2.5 font-medium"
-                style={{ fontSize: "clamp(13px,1.6vw,15px)", color: "#1a3a30" }}
-              >
-                <span
-                  className="h-2.5 w-2.5 shrink-0 rounded-full"
-                  style={{ background: "#2d7a5f" }}
-                />
-                {item}
-              </div>
-            ))}
+    <section
+      ref={sectionRef}
+      className="relative w-full py-32 px-6 lg:px-24 bg-white overflow-hidden opacity-0 translate-y-12 transition-all duration-[1.5s] reveal-container"
+    >
+      {/* Abstract background shapes using brand colors */}
+      <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-500/5 rounded-full blur-[100px]" />
+      <div className="absolute bottom-20 right-10 w-72 h-72 bg-amber-500/5 rounded-full blur-[100px]" />
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row-reverse items-center gap-16 lg:gap-24">
+        
+        {/* Content Side: High-impact typography */}
+        <div className="flex-1 space-y-8">
+          <div className="inline-flex items-center gap-2 bg-emerald-50 px-4 py-2 rounded-full">
+             <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+             <span className="text-emerald-800 font-bold text-[10px] uppercase tracking-widest">Growth Engines</span>
           </div>
-
-          <Link
-            href="#"
-            className="btn-link mt-1 inline-flex items-center gap-1.5 font-semibold no-underline transition-[gap] duration-200 hover:gap-3"
-            style={{ fontSize: "clamp(13px,1.6vw,15px)", color: "#2d7a5f" }}
-          >
-            Explore services in menu <span>→</span>
+          <h2 className="text-5xl lg:text-7xl font-extrabold text-slate-950 tracking-tight leading-[0.95]">
+            Marketing That <span className="text-emerald-600">Converts.</span>
+          </h2>
+          
+          <p className="text-lg text-slate-600 leading-relaxed max-w-lg">
+            We move beyond vanity metrics. By architecting data-backed funnels, we ensure every click, impression, and interaction drives your bottom line.
+          </p>
+          <Link href="/services" className="group inline-flex items-center gap-3 bg-slate-950 text-white px-8 py-4 rounded-xl font-bold hover:bg-emerald-600 transition-all">
+            View Analytics Suite <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
-
-        <div className="content-right relative w-full lg:flex-1">
-          <div
-            className="absolute left-3 top-3 z-10 flex items-center justify-center rounded-[14px]"
-            style={{
-              width: "clamp(44px,7vw,56px)",
-              height: "clamp(44px,7vw,56px)",
-              background: "#2d7a5f",
-              boxShadow: "0 6px 20px rgba(45,122,95,.35)",
-            }}
-          >
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+        {/* Visual Side: Dashboard/Data aesthetic */}
+        <div className="flex-1 w-full grid grid-cols-2 gap-4">
+          {features.map((f, i) => (
+            <div 
+              key={f.name} 
+              className={`p-6 rounded-3xl border border-slate-100 bg-white shadow-sm hover:shadow-xl transition-shadow ${i % 2 !== 0 ? 'mt-8' : ''}`}
             >
-              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-              <polyline points="17 6 23 6 23 12" />
-            </svg>
-          </div>
-
-          <div
-            className="relative overflow-hidden rounded-2xl"
-            style={{
-              height: "clamp(200px,38vw,360px)",
-              boxShadow: "0 16px 48px rgba(0,60,40,.12)",
-            }}
-          >
-            <Image
-              src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&auto=format&fit=crop"
-              alt="Digital Marketing Analytics"
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-          </div>
+              <div className={`mb-4 p-3 rounded-2xl bg-slate-50 w-fit ${f.color}`}>
+                <f.icon size={24} />
+              </div>
+              <h3 className="font-bold text-slate-900">{f.name}</h3>
+              <p className="text-xs text-slate-500 mt-1">High-performance optimization</p>
+            </div>
+          ))}
         </div>
-      </section>
-    </>
+      </div>
+      <style jsx global>{`
+        .reveal-container { transition: opacity 1.5s, transform 1.5s; }
+        .reveal-active { opacity: 1 !important; transform: translateY(0) !important; }
+      `}</style>
+    </section>
   );
 }
