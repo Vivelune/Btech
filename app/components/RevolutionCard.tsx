@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Sparkles, Globe, ShieldAlert, Timer } from "lucide-react";
+import Link from "next/link";
 
 export default function RevolutionCard() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -122,6 +123,7 @@ export default function RevolutionCard() {
 
         {/* High-Contrast Luxury Slate-to-Green Action Button */}
         <div className="mt-10">
+          <Link href="/contactform">
           <button className="group w-full flex items-center justify-between rounded-2xl bg-slate-950 p-4 transition-all duration-300 hover:bg-slate-900 hover:scale-[1.01] shadow-[0_20px_40px_rgba(15,23,42,0.15)] cursor-pointer border-0">
             <div className="pl-2">
               <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-slate-400 block text-left">
@@ -135,6 +137,7 @@ export default function RevolutionCard() {
               <ArrowUpRight className="h-5 w-5 stroke-[2.5]" />
             </div>
           </button>
+          </Link>
         </div>
 
       </motion.div>

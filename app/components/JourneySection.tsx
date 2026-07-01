@@ -86,7 +86,7 @@ export default function GlassyJourneySection() {
             className="mt-2 flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-center"
           >
             <Link
-              href="#"
+              href="/contactform"
               className="group flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 shadow-lg shadow-black/20 transition-all duration-200 hover:bg-slate-100 hover:scale-[1.02]"
             >
               Get Started Today

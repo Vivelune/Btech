@@ -173,7 +173,7 @@ export default function DevelopmentDetailsPage() {
           </p>
           <div className="pt-4">
             <Link 
-              href="/contact" 
+              href="/contactform" 
               className="inline-flex items-center gap-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-8 py-4 rounded-xl transition-all shadow-[0_4px_20px_rgba(16,185,129,0.3)] hover:scale-[1.02]"
             >
               Kickstart Your Project 
