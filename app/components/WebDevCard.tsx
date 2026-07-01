@@ -97,7 +97,7 @@ export default function WebDevCard() {
               className="hidden lg:block pt-12"
             >
               <Link
-                href="#"
+                href="/web-dev"
                 className="group inline-flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-sm font-medium text-white transition-all hover:bg-slate-800 dark:bg-zinc-50 dark:text-zinc-950 dark:hover:bg-zinc-200"
               >
                 View full breakdown
@@ -154,7 +154,7 @@ export default function WebDevCard() {
             {/* Mobile-only CTA anchor */}
             <div className="block pt-4 lg:hidden">
               <Link
-                href="#"
+                href="/web-dev"
                 className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-sm font-medium text-white dark:bg-zinc-50 dark:text-zinc-950"
               >
                 View full breakdown

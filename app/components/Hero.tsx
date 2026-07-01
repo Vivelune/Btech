@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import Link from "next/link";
 
 
 const streamlinedCapabilities = [
@@ -66,10 +67,12 @@ export default function Hero() {
         </p>
         
         <div className="gsap-cta opacity-0">
+          <Link href="/contactform">
           <button className="group relative flex items-center gap-3 bg-gradient-to-r from-[#1ad154] to-[#39ef73] text-[#03140b] font-bold px-8 py-4 rounded-xl shadow-[0_4px_30px_rgba(57,239,115,0.3)] transition-all duration-300 active:scale-[0.98] w-fit cursor-pointer">
             <span>Get Started Today</span>
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 stroke-[2.5]" />
           </button>
+          </Link>
         </div>
       </div>
 
@@ -98,10 +101,11 @@ export default function Hero() {
 
         </div>
       </div>
+<Link href="/contactform" className="fixed bottom-6 right-6 w-14 h-14 rounded-xl bg-gradient-to-r from-[#1ad154] to-[#39ef73] text-[#03140b] flex items-center justify-center shadow-lg shadow-[#39ef73]/20 transition-all duration-300 hover:scale-105 active:scale-95 z-50 group cursor-pointer border border-white/10"
+>
+  <MessageSquare className="w-5 h-5 transition-transform duration-300 group-hover:rotate-6 stroke-[2.5]"/>
+ </Link>
 
-      <button className="fixed bottom-6 right-6 w-14 h-14 rounded-xl bg-gradient-to-r from-[#1ad154] to-[#39ef73] text-[#03140b] flex items-center justify-center shadow-lg shadow-[#39ef73]/20 transition-all duration-300 hover:scale-105 active:scale-95 z-50 group cursor-pointer border border-white/10">
-        <MessageSquare className="w-5 h-5 transition-transform duration-300 group-hover:rotate-6 stroke-[2.5]" />
-      </button>
     </section>
   );
 }

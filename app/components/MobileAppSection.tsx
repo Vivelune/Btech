@@ -58,7 +58,7 @@ export default function MobileAppSection() {
               </div>
             ))}
           </div>
-          <Link href="/services" className="inline-block mt-4 text-emerald-700 font-bold underline underline-offset-8 decoration-emerald-500">
+          <Link href="/mobile-services" className="inline-block mt-4 text-emerald-700 font-bold underline underline-offset-8 decoration-emerald-500">
             See our development process
           </Link>
         </div>

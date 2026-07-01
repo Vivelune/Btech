@@ -48,7 +48,7 @@ export default function DigitalMarketingSection() {
           <p className="text-lg text-slate-600 leading-relaxed max-w-lg">
             We move beyond vanity metrics. By architecting data-backed funnels, we ensure every click, impression, and interaction drives your bottom line.
           </p>
-          <Link href="/services" className="group inline-flex items-center gap-3 bg-slate-950 text-white px-8 py-4 rounded-xl font-bold hover:bg-emerald-600 transition-all">
+          <Link href="/analytics" className="group inline-flex items-center gap-3 bg-slate-950 text-white px-8 py-4 rounded-xl font-bold hover:bg-emerald-600 transition-all">
             View Analytics Suite <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
