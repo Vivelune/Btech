@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from 'react';
@@ -26,6 +27,7 @@ import {
 } from 'lucide-react';
 import { FloatingNav } from '@/components/ui/floating-navbar';
 import { cn } from "@/lib/utils";
+
 import Hero from './components/Hero';
 import WebDevCard from './components/WebDevCard';
 import MobileAppSection from './components/MobileAppSection';
@@ -34,6 +36,7 @@ import RevolutionCard from './components/RevolutionCard';
 import JourneySection from './components/JourneySection';
 import BoldVisionSection from './components/BoldVisionSection';
 import Footer from './components/Footer';
+import Navbar from './components/navbar/Navbar';
 
 const Divider = () => (
   <div
@@ -478,13 +481,18 @@ export default function MainPage() {
 
   return (
     <>
+      <Navbar />
       <FloatingNav navItems={navItems} contactDrawerContent={contactCustomData} />
       <ScrollProgressBar />
       <Hero />
       <BoldVisionSection />
       <WebDevCard />
-      <MobileAppSection />
-      <DigitalMarketingSection />
+      <section id="mobile-app-section">
+        <MobileAppSection />
+      </section>
+      <section id="digital-marketing-section">
+        <DigitalMarketingSection />
+      </section>
       <RevolutionCard />
       <JourneySection />
       <Footer />

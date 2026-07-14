@@ -144,8 +144,8 @@ export default function ContactPage() {
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-8 py-12 sm:py-16">
         <div className="flex flex-col lg:flex-row gap-7 items-start">
 
-          {/* ── LEFT PANEL ── */}
-          <div className="gsap-left opacity-0 w-full lg:w-[42%] flex-shrink-0 flex flex-col gap-5">
+          {/* ── LEFT PANEL ── hidden on mobile, visible on lg+ ── */}
+          <div className="gsap-left opacity-0 hidden lg:flex lg:w-[42%] flex-shrink-0 flex-col gap-5">
 
             {/* Info card */}
             <div
@@ -295,8 +295,8 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* ── RIGHT PANEL — FORM ── */}
-          <div className="gsap-right opacity-0 w-full lg:flex-1">
+          {/* ── RIGHT PANEL — FORM ── full width on mobile, flex-1 on lg+ ── */}
+          <div className="gsap-right opacity-0 w-full lg:flex-1 max-w-2xl mx-auto lg:max-w-none lg:mx-0">
             <div
               className="rounded-2xl p-8 sm:p-10 relative overflow-hidden"
               style={{
