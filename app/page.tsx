@@ -481,6 +481,7 @@ export default function MainPage() {
 
   return (
     <>
+    welcome alhaji
       <Navbar />
       <FloatingNav navItems={navItems} contactDrawerContent={contactCustomData} />
       <ScrollProgressBar />
