@@ -11,6 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { SignOutButton, UserAvatar } from "@clerk/nextjs";
 
 // ---------------------------------------------------------------------------
 // Data — swap hrefs/copy for your real routes/content
@@ -209,139 +210,149 @@ export default function Navbar({ className }: { className?: string }) {
         <nav
           onMouseLeave={scheduleClose}
           className={cn(
-            "relative mx-auto flex w-full max-w-7xl items-center justify-between gap-2 border-b transition-all duration-500 ease-out",
+            "relative flex w-full items-center justify-between gap-2 border-b transition-all duration-500 ease-out",
             "border-white/[0.08] bg-[#0a1f14]/85 backdrop-blur-xl backdrop-saturate-150",
             "shadow-[0_1px_0_0_rgba(255,255,255,0.04)_inset,0_8px_30px_-8px_rgba(0,0,0,0.5)]",
             scrolled ? "px-5 py-3 md:px-8" : "px-5 py-4 md:px-10"
           )}
           style={{ fontFamily: "var(--font-dm-sans, ui-sans-serif)" }}
         >
-          {/* Logo */}
-          <a
-            href="/"
-            className="flex shrink-0 items-center gap-2 rounded-full px-2 py-1.5 text-[16px] font-bold tracking-tight text-white"
-            style={{ fontFamily: "var(--font-syne, ui-sans-serif)" }}
-          >
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#3a9e5f] text-[11px] font-bold text-[#04140b]">
-              B
-            </span>
-            BTech
-          </a>
-
-          {/* Desktop links */}
-          <ul className="hidden items-center gap-1 md:flex">
-            {NAV_ITEMS.map((item) => (
-              <li key={item.label} onMouseEnter={() => openMenu(item.label)}>
-                <button
-                  className={cn(
-                    "flex items-center gap-1 rounded-full px-3.5 py-1.5 text-[14px] font-semibold transition-colors duration-200",
-                    active === item.label
-                      ? "bg-[#3a9e5f] text-[#04140b]"
-                      : "text-white/70 hover:text-white"
-                  )}
-                >
-                  {item.label}
-                  <ChevronDown
-                    size={14}
-                    strokeWidth={2.75}
-                    className={cn(
-                      "transition-transform duration-200",
-                      active === item.label ? "rotate-180 opacity-100" : "opacity-50"
-                    )}
-                  />
-                </button>
-              </li>
-            ))}
-          </ul>
-
-          {/* Search (desktop) */}
-          <div
-            ref={searchWrapRef}
-            className="relative hidden shrink-0 items-center md:flex"
-          >
-            <div
-              className={cn(
-                "flex items-center gap-1.5 overflow-hidden rounded-full border transition-all duration-300 ease-out",
-                searchOpen
-                  ? "w-52 border-white/10 bg-white/[0.06] px-3 py-1.5"
-                  : "w-9 border-transparent px-0 py-1.5"
-              )}
+          <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-2">
+            {/* Logo */}
+            <a
+              href="/"
+              className="flex shrink-0 items-center gap-2 rounded-full px-2 py-1.5 text-[16px] font-bold tracking-tight text-white"
+              style={{ fontFamily: "var(--font-syne, ui-sans-serif)" }}
             >
-              <button
-                onClick={toggleSearch}
-                aria-label={searchOpen ? "Close search" : "Search services"}
-                className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white/70 transition-colors hover:text-white"
-              >
-                {searchOpen ? <X size={15} strokeWidth={2.3} /> : <Search size={16} strokeWidth={2.3} />}
-              </button>
-              <input
-                ref={searchInputRef}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={handleSearchKeyDown}
-                onFocus={() => setSearchOpen(true)}
-                placeholder="Search services…"
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#3a9e5f] text-[11px] font-bold text-[#04140b]">
+                B
+              </span>
+              BTech
+            </a>
+
+            {/* Desktop links */}
+            <ul className="hidden items-center gap-1 md:flex">
+              {NAV_ITEMS.map((item) => (
+                <li key={item.label} onMouseEnter={() => openMenu(item.label)}>
+                  <button
+                    className={cn(
+                      "flex items-center gap-1 rounded-full px-3.5 py-1.5 text-[14px] font-semibold transition-colors duration-200",
+                      active === item.label
+                        ? "bg-[#3a9e5f] text-[#04140b]"
+                        : "text-white/70 hover:text-white"
+                    )}
+                  >
+                    {item.label}
+                    <ChevronDown
+                      size={14}
+                      strokeWidth={2.75}
+                      className={cn(
+                        "transition-transform duration-200",
+                        active === item.label ? "rotate-180 opacity-100" : "opacity-50"
+                      )}
+                    />
+                  </button>
+                </li>
+              ))}
+            </ul>
+
+            {/* Search (desktop) */}
+            <div
+              ref={searchWrapRef}
+              className="relative hidden shrink-0 items-center md:flex"
+            >
+              <div
                 className={cn(
-                  "w-full bg-transparent text-[13.5px] font-medium text-white placeholder:text-white/40 focus:outline-none",
-                  searchOpen ? "opacity-100" : "pointer-events-none opacity-0"
+                  "flex items-center gap-1.5 overflow-hidden rounded-full border transition-all duration-300 ease-out",
+                  searchOpen
+                    ? "w-52 border-white/10 bg-white/[0.06] px-3 py-1.5"
+                    : "w-9 border-transparent px-0 py-1.5"
                 )}
-              />
+              >
+                <button
+                  onClick={toggleSearch}
+                  aria-label={searchOpen ? "Close search" : "Search services"}
+                  className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white/70 transition-colors hover:text-white"
+                >
+                  {searchOpen ? <X size={15} strokeWidth={2.3} /> : <Search size={16} strokeWidth={2.3} />}
+                </button>
+                <input
+                  ref={searchInputRef}
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={handleSearchKeyDown}
+                  onFocus={() => setSearchOpen(true)}
+                  placeholder="Search services…"
+                  className={cn(
+                    "w-full bg-transparent text-[13.5px] font-medium text-white placeholder:text-white/40 focus:outline-none",
+                    searchOpen ? "opacity-100" : "pointer-events-none opacity-0"
+                  )}
+                />
+              </div>
+
+              {/* Results dropdown */}
+              {searchOpen && query.trim() && (
+                <div className="absolute right-0 top-[calc(100%+10px)] w-72 overflow-hidden rounded-2xl border border-white/10 bg-[#0f2818]/95 p-1.5 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+                  {results.length ? (
+                    results.map((entry, i) => (
+                      <button
+                        key={entry.href + entry.title}
+                        onMouseEnter={() => setHighlighted(i)}
+                        onClick={() => goToEntry(entry)}
+                        className={cn(
+                          "flex w-full flex-col items-start rounded-xl px-3 py-2 text-left transition-colors duration-150",
+                          i === highlighted ? "bg-white/[0.08]" : "hover:bg-white/[0.06]"
+                        )}
+                      >
+                        <span className="flex w-full items-center justify-between">
+                          <span className="text-[13.5px] font-bold text-white">
+                            {entry.title}
+                          </span>
+                          <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10.5px] font-semibold uppercase tracking-wide text-[#4ade80]">
+                            {entry.category}
+                          </span>
+                        </span>
+                        {entry.desc && (
+                          <span className="mt-0.5 text-[12px] font-medium text-white/50">
+                            {entry.desc}
+                          </span>
+                        )}
+                      </button>
+                    ))
+                  ) : (
+                    <p className="px-3 py-3 text-[13px] font-medium text-white/40">
+                      No services matched “{query}”.
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
 
-            {/* Results dropdown */}
-            {searchOpen && query.trim() && (
-              <div className="absolute right-0 top-[calc(100%+10px)] w-72 overflow-hidden rounded-2xl border border-white/10 bg-[#0f2818]/95 p-1.5 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] backdrop-blur-xl">
-                {results.length ? (
-                  results.map((entry, i) => (
-                    <button
-                      key={entry.href + entry.title}
-                      onMouseEnter={() => setHighlighted(i)}
-                      onClick={() => goToEntry(entry)}
-                      className={cn(
-                        "flex w-full flex-col items-start rounded-xl px-3 py-2 text-left transition-colors duration-150",
-                        i === highlighted ? "bg-white/[0.08]" : "hover:bg-white/[0.06]"
-                      )}
-                    >
-                      <span className="flex w-full items-center justify-between">
-                        <span className="text-[13.5px] font-bold text-white">
-                          {entry.title}
-                        </span>
-                        <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10.5px] font-semibold uppercase tracking-wide text-[#4ade80]">
-                          {entry.category}
-                        </span>
-                      </span>
-                      {entry.desc && (
-                        <span className="mt-0.5 text-[12px] font-medium text-white/50">
-                          {entry.desc}
-                        </span>
-                      )}
-                    </button>
-                  ))
-                ) : (
-                  <p className="px-3 py-3 text-[13px] font-medium text-white/40">
-                    No services matched “{query}”.
-                  </p>
-                )}
-              </div>
-            )}
+            {/* CTA */}
+             <Link
+              href="/sign-in"
+              className="hidden shrink-0 items-center gap-1.5 rounded-full bg-[#3a9e5f] px-4 py-2 text-[13.5px] font-bold text-[#04140b] transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg md:inline-flex">
+              Login
+              <ArrowUpRight size={15} strokeWidth={2.5} />
+            </Link>
+            <Link
+              href="/contactform"
+              className="hidden shrink-0 items-center gap-1.5 rounded-full bg-[#3a9e5f] px-4 py-2 text-[13.5px] font-bold text-[#04140b] transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg md:inline-flex">
+              Let's talk
+              <ArrowUpRight size={15} strokeWidth={2.5} />
+            </Link>
+            <SignOutButton/>
+            
+
+            {/* Mobile toggle */}
+            <button
+              onClick={() => setMobileOpen((v) => !v)}
+              className="flex h-9 w-9 items-center justify-center rounded-full text-white md:hidden"
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X size={19} strokeWidth={2.3} /> : <MenuIcon size={19} strokeWidth={2.3} />}
+            </button>
           </div>
-
-          {/* CTA */}
-          <Link
-            href="/contactform"
-            className="hidden shrink-0 items-center gap-1.5 rounded-full bg-[#3a9e5f] px-4 py-2 text-[13.5px] font-bold text-[#04140b] transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg md:inline-flex">
-            Let's talk
-            <ArrowUpRight size={15} strokeWidth={2.5} />
-          </Link>
-
-          {/* Mobile toggle */}
-          <button
-            onClick={() => setMobileOpen((v) => !v)}
-            className="flex h-9 w-9 items-center justify-center rounded-full text-white md:hidden"
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X size={19} strokeWidth={2.3} /> : <MenuIcon size={19} strokeWidth={2.3} />}
-          </button>
 
           {/* Dropdown panel (desktop) */}
           <div

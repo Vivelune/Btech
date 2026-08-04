@@ -25,7 +25,7 @@ import {
   Clock,
   ArrowRight
 } from 'lucide-react';
-import { FloatingNav } from '@/components/ui/floating-navbar';
+
 import { cn } from "@/lib/utils";
 
 import Hero from './components/Hero';
@@ -483,7 +483,7 @@ export default function MainPage() {
     <>
     
       <Navbar />
-      <FloatingNav navItems={navItems} contactDrawerContent={contactCustomData} />
+     
       <ScrollProgressBar />
       <Hero />
       <BoldVisionSection />
