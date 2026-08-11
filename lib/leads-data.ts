@@ -7,7 +7,7 @@ import { Lead } from "./leads";
 export const leads: Lead[] = [
   {
     id: "1",
-    name: "Amb Hassan Conteh",
+    name: "Amb Hassan Conteh MOCK",
     email: "hassan@btech.com",
     service: "Web Development",
     message:
@@ -17,7 +17,7 @@ export const leads: Lead[] = [
   },
   {
     id: "2",
-    name: "Fatmata Kamara",
+    name: "Fatmata Kamara MOCK",
     email: "fatmata@agrimarket.sl",
     service: "App Development",
     message:
@@ -27,7 +27,7 @@ export const leads: Lead[] = [
   },
   {
     id: "3",
-    name: "Ibrahim Sesay",
+    name: "Ibrahim Sesay MOCK",
     email: "ibrahim@example.com",
     service: "Digital Marketing",
     message:
