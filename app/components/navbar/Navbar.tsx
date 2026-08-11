@@ -217,7 +217,7 @@ export default function Navbar({ className }: { className?: string }) {
           )}
           style={{ fontFamily: "var(--font-dm-sans, ui-sans-serif)" }}
         >
-          <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-2">
+          <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 lg:gap-6">
             {/* Logo */}
             <a
               href="/"
@@ -231,7 +231,7 @@ export default function Navbar({ className }: { className?: string }) {
             </a>
 
             {/* Desktop links */}
-            <ul className="hidden items-center gap-1 md:flex">
+            <ul className="hidden flex-1 items-center justify-center gap-1 md:flex">
               {NAV_ITEMS.map((item) => (
                 <li key={item.label} onMouseEnter={() => openMenu(item.label)}>
                   <button
@@ -256,6 +256,8 @@ export default function Navbar({ className }: { className?: string }) {
               ))}
             </ul>
 
+            {/* Right-aligned action cluster: search, CTAs, sign-out, mobile toggle */}
+            <div className="flex shrink-0 items-center gap-2 lg:gap-3">
             {/* Search (desktop) */}
             <div
               ref={searchWrapRef}
@@ -329,7 +331,7 @@ export default function Navbar({ className }: { className?: string }) {
             </div>
 
             {/* CTA */}
-             <Link
+            <Link
               href="/sign-in"
               className="hidden shrink-0 items-center gap-1.5 rounded-full bg-[#3a9e5f] px-4 py-2 text-[13.5px] font-bold text-[#04140b] transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg md:inline-flex">
               Login
@@ -342,7 +344,6 @@ export default function Navbar({ className }: { className?: string }) {
               <ArrowUpRight size={15} strokeWidth={2.5} />
             </Link>
             <SignOutButton/>
-            
 
             {/* Mobile toggle */}
             <button
@@ -352,6 +353,7 @@ export default function Navbar({ className }: { className?: string }) {
             >
               {mobileOpen ? <X size={19} strokeWidth={2.3} /> : <MenuIcon size={19} strokeWidth={2.3} />}
             </button>
+            </div>
           </div>
 
           {/* Dropdown panel (desktop) */}

@@ -22,3 +22,24 @@ model User {
   username  String?  @unique
   createdAt DateTime @default(now())
 }
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  CONVERTED
+  ARCHIVED
+}
+
+model Lead {
+  id          String     @id @default(cuid())
+  name        String
+  email       String
+  service     String
+  message     String
+  submittedAt DateTime   @default(now())
+  status      LeadStatus @default(NEW)
+
+  @@index([status])
+  @@index([submittedAt])
+  @@index([email])
+}
