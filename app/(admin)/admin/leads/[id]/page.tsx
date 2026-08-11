@@ -5,10 +5,10 @@ import { getLeadById } from "@/lib/leads-data";
 import { LeadStatus } from "@/lib/leads";
 
 const statusStyles: Record<LeadStatus, string> = {
-  new: "bg-green-100 text-green-700",
-  contacted: "bg-blue-100 text-blue-700",
-  converted: "bg-emerald-100 text-emerald-800",
-  archived: "bg-gray-100 text-gray-600",
+  NEW: "bg-green-100 text-green-700",
+  CONTACTED: "bg-blue-100 text-blue-700",
+  CONVERTED: "bg-emerald-100 text-emerald-800",
+  ARCHIVED: "bg-gray-100 text-gray-600"
 };
 
 export default async function LeadDetailsPage({
