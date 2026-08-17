@@ -1,3 +1,4 @@
+
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Mail, Briefcase, Calendar, MessageSquare } from "lucide-react";
@@ -17,7 +18,7 @@ export default async function LeadDetailsPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const lead = getLeadById(id);
+  const lead = await getLeadById(id);
 
   if (!lead) notFound();
 

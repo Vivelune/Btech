@@ -30,7 +30,7 @@ export default function AdminLayout({
           </button>
 
           <span className="ml-3 font-semibold text-[#F5F1E8]">
-            ALHAJIBTECH
+            BTECH DASHBOARD
           </span>
         </header>
 

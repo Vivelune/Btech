@@ -501,7 +501,7 @@ export default function Navbar({ className }: { className?: string }) {
           )}
 
           <a
-            href="/contact"
+            href="/contactform"
             onClick={() => setMobileOpen(false)}
             className="mt-2 flex items-center justify-center gap-1.5 rounded-full bg-[#3a9e5f] px-4 py-3 text-[14px] font-semibold text-[#04140b]"
           >

@@ -1,42 +1,39 @@
-
-// Sample data — replace with a Prisma query (e.g. prisma.lead.findMany())
-
+import prisma from "./prisma";
 import { Lead } from "./leads";
 
-// once contact form submissions are written to the database.
-export const leads: Lead[] = [
-  {
-    id: "1",
-    name: "Amb Hassan Conteh MOCK",
-    email: "hassan@btech.com",
-    service: "Web Development",
-    message:
-      "We need a modern company website with a blog and contact form integration. Timeline is 6 weeks.",
-    submittedAt: "2026-08-04T10:15:00Z",
-    status: "NEW",
-  },
-  {
-    id: "2",
-    name: "Fatmata Kamara MOCK",
-    email: "fatmata@agrimarket.sl",
-    service: "App Development",
-    message:
-      "Looking for a mobile app to connect farmers directly with buyers across Sierra Leone.",
-    submittedAt: "2026-08-02T14:30:00Z",
-    status: "CONTACTED",
-  },
-  {
-    id: "3",
-    name: "Ibrahim Sesay MOCK",
-    email: "ibrahim@example.com",
-    service: "Digital Marketing",
-    message:
-      "We want to run a social media campaign for our new product launch next month.",
-    submittedAt: "2026-07-28T09:00:00Z",
-    status: "CONTACTED",
-  },
-];
+// Converts a Prisma Lead row (submittedAt: Date) into the client-safe
+// Lead shape used by the admin UI (submittedAt: ISO string).
+function toLead(row: {
+  id: string;
+  name: string;
+  email: string;
+  service: string;
+  message: string;
+  submittedAt: Date;
+  status: Lead["status"];
+}): Lead {
+  return {
+    id: row.id,
+    name: row.name,
+    email: row.email,
+    service: row.service,
+    message: row.message,
+    submittedAt: row.submittedAt.toISOString(),
+    status: row.status,
+  };
+}
 
-export function getLeadById(id: string): Lead | undefined {
-  return leads.find((lead) => lead.id === id);
+export async function getLeads(): Promise<Lead[]> {
+  console.log("STEP 1: about to query");
+  const rows = await prisma.lead.findMany({
+    orderBy: { submittedAt: "desc" },
+  });
+  console.log("STEP 2: query finished, count =", rows.length);
+  console.log("STEP 3: raw rows =", JSON.stringify(rows, null, 2));
+  return rows.map(toLead);
+}
+
+export async function getLeadById(id: string): Promise<Lead | undefined> {
+  const row = await prisma.lead.findUnique({ where: { id } });
+  return row ? toLead(row) : undefined;
 }

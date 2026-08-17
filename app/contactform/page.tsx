@@ -61,11 +61,19 @@ export default function ContactPage() {
     setFormState("loading");
     const form = e.currentTarget;
     const data = new FormData(form);
+
+    const payload = {
+      name: data.get("name"),
+      email: data.get("email"),
+      service: data.get("service"),
+      message: data.get("message"),
+    };
+
     try {
-      const res = await fetch("https://formspree.io/f/xojovoja", {
+      const res = await fetch("/api/leads", {
         method: "POST",
-        body: data,
-        headers: { Accept: "application/json" },
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
       if (res.ok) {
         setFormState("success");

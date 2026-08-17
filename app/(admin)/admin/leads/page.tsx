@@ -1,9 +1,13 @@
 import Link from "next/link";
 import { ArrowRight, Search, Users } from "lucide-react";
-import { leads } from "@/lib/leads-data";
+import { getLeads } from "@/lib/leads-data";
 import { LeadStatus } from "@/lib/leads";
 
-export default function LeadsPage() {
+export const dynamic = "force-dynamic";
+
+export default async function LeadsPage() {
+  const leads = await getLeads();
+
   return (
     <section className="min-h-screen bg-[#061A13]">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -25,7 +29,7 @@ export default function LeadsPage() {
           </div>
 
           <p className="mt-3 max-w-2xl text-sm leading-6 text-[#C9D4CD]">
-            View and manage leads from the ALHAJIBTECH platform.
+            View and manage leads from the BTECH platform.
           </p>
         </div>
 
@@ -45,74 +49,76 @@ export default function LeadsPage() {
         </div>
 
         <div className="overflow-hidden rounded-2xl border border-emerald-900/60 bg-[#0A241B]">
-          <div className="hidden overflow-x-auto md:block">
-            <table className="w-full text-left">
-              <thead className="border-b border-emerald-900/60 bg-[#0D3024]">
-                <tr>
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-emerald-200/70">
-                    Name
-                  </th>
+          {leads.length === 0 ? (
+            <div className="px-6 py-16 text-center text-sm text-emerald-200/60">
+              No leads yet. Submissions from the contact form will show up here.
+            </div>
+          ) : (
+            <div className="hidden overflow-x-auto md:block">
+              <table className="w-full text-left">
+                <thead className="border-b border-emerald-900/60 bg-[#0D3024]">
+                  <tr>
+                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-emerald-200/70">
+                      Name
+                    </th>
 
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-emerald-200/70">
-                    Email
-                  </th>
+                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-emerald-200/70">
+                      Email
+                    </th>
 
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-emerald-200/70">
-                    Status
-                  </th>
+                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-emerald-200/70">
+                      Status
+                    </th>
 
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-emerald-200/70">
-                    Service
-                  </th>
+                    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-emerald-200/70">
+                      Service
+                    </th>
 
-                  <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-emerald-200/70">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody className="divide-y divide-emerald-900/50">
-                {leads.map((lead) => (
-                  <tr
-                    key={lead.id}
-                    className="transition hover:bg-emerald-950/40"
-                  >
-                    <td className="px-6 py-5">
-                      <div className="font-medium text-[#F5F1E8]">
-                        {lead.name}
-                      </div>
-
-                     
-                    </td>
-
-                    <td className="px-6 py-5 text-sm text-[#D8E1DB]">
-                      {lead.email}
-                    </td>
-
-                    <td className="px-6 py-5">
-                      <StatusBadge status={lead.status} />
-                    </td>
-
-                    <td className="px-6 py-5 text-sm text-[#D8E1DB]">
-                      {lead.service}
-                    </td>
-
-                    <td className="px-6 py-5 text-right">
-                      <Link
-                        href={`/admin/leads/${lead.id}`}
-                        className="inline-flex items-center gap-2 rounded-lg bg-[#65FFAD] px-4 py-2 text-sm font-semibold text-[#062017] transition hover:bg-[#8AFFC2]"
-                      >
-                        View
-                        <ArrowRight size={16} />
-                      </Link>
-                    </td>
+                    <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-emerald-200/70">
+                      Action
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
 
-          
+                <tbody className="divide-y divide-emerald-900/50">
+                  {leads.map((lead) => (
+                    <tr
+                      key={lead.id}
+                      className="transition hover:bg-emerald-950/40"
+                    >
+                      <td className="px-6 py-5">
+                        <div className="font-medium text-[#F5F1E8]">
+                          {lead.name}
+                        </div>
+                      </td>
+
+                      <td className="px-6 py-5 text-sm text-[#D8E1DB]">
+                        {lead.email}
+                      </td>
+
+                      <td className="px-6 py-5">
+                        <StatusBadge status={lead.status} />
+                      </td>
+
+                      <td className="px-6 py-5 text-sm text-[#D8E1DB]">
+                        {lead.service}
+                      </td>
+
+                      <td className="px-6 py-5 text-right">
+                        <Link
+                          href={`/admin/leads/${lead.id}`}
+                          className="inline-flex items-center gap-2 rounded-lg bg-[#65FFAD] px-4 py-2 text-sm font-semibold text-[#062017] transition hover:bg-[#8AFFC2]"
+                        >
+                          View
+                          <ArrowRight size={16} />
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </section>
