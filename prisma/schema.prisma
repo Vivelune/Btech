@@ -13,8 +13,15 @@ model User {
   name      String?
   username  String?  @unique
   clerkId   String   @unique
+  role      Role     @default(USER)
   createdAt DateTime @default(now())
 }
+
+enum Role {
+  ADMIN
+  USER
+}
+
 
 model Lead {
   id          String     @id @default(cuid())

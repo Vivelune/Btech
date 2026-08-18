@@ -11,7 +11,11 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SignOutButton, UserAvatar } from "@clerk/nextjs";
+import {
+  Show,
+  SignOutButton,
+} from "@clerk/nextjs";
+
 
 // ---------------------------------------------------------------------------
 // Data — swap hrefs/copy for your real routes/content
@@ -330,20 +334,51 @@ export default function Navbar({ className }: { className?: string }) {
               )}
             </div>
 
-            {/* CTA */}
-            <Link
-              href="/sign-in"
-              className="hidden shrink-0 items-center gap-1.5 rounded-full bg-[#3a9e5f] px-4 py-2 text-[13.5px] font-bold text-[#04140b] transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg md:inline-flex">
-              Login
-              <ArrowUpRight size={15} strokeWidth={2.5} />
-            </Link>
-            <Link
-              href="/contactform"
-              className="hidden shrink-0 items-center gap-1.5 rounded-full bg-[#3a9e5f] px-4 py-2 text-[13.5px] font-bold text-[#04140b] transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg md:inline-flex">
-              Let's talk
-              <ArrowUpRight size={15} strokeWidth={2.5} />
-            </Link>
-            <SignOutButton/>
+                    {/* Auth + CTA */}
+          {/* Auth + CTA */}
+<div className="hidden items-center gap-2 md:flex">
+  <Show when="signed-out">
+    <Link
+      href="/sign-in"
+      className="flex shrink-0 items-center rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-[13.5px] font-bold text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.1] hover:shadow-lg"
+    >
+      Sign in
+    </Link>
+
+    <Link
+      href="/sign-up"
+      className="flex shrink-0 items-center rounded-full bg-[#3a9e5f] px-4 py-2 text-[13.5px] font-bold text-[#04140b] transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+    >
+      Sign up
+    </Link>
+  </Show>
+
+  <Show when="signed-in">
+    <Link
+      href="/account"
+      className="flex shrink-0 items-center rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-[13.5px] font-bold text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.1] hover:shadow-lg"
+    >
+      Account
+    </Link>
+
+    <SignOutButton>
+      <button
+        type="button"
+        className="flex shrink-0 items-center rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-[13.5px] font-bold text-white/70 transition-all duration-200 hover:-translate-y-0.5 hover:border-red-400/20 hover:bg-red-400/10 hover:text-white"
+      >
+        Sign out
+      </button>
+    </SignOutButton>
+  </Show>
+
+  <Link
+    href="/contactform"
+    className="flex shrink-0 items-center gap-1.5 rounded-full bg-[#3a9e5f] px-4 py-2 text-[13.5px] font-bold text-[#04140b] transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+  >
+    Let's talk
+    <ArrowUpRight size={15} strokeWidth={2.5} />
+  </Link>
+</div>
 
             {/* Mobile toggle */}
             <button
@@ -500,14 +535,50 @@ export default function Navbar({ className }: { className?: string }) {
             ))
           )}
 
-          <a
-            href="/contactform"
-            onClick={() => setMobileOpen(false)}
-            className="mt-2 flex items-center justify-center gap-1.5 rounded-full bg-[#3a9e5f] px-4 py-3 text-[14px] font-semibold text-[#04140b]"
-          >
-            Let's talk
-            <ArrowUpRight size={15} />
-          </a>
+          {/* Auth + CTA */}
+<div className="hidden items-center gap-2 md:flex">
+  <Show when="signed-out">
+    <Link
+      href="/sign-in"
+      className="flex shrink-0 items-center rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-[13.5px] font-bold text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.1] hover:shadow-lg"
+    >
+      Sign in
+    </Link>
+
+    <Link
+      href="/sign-up"
+      className="flex shrink-0 items-center rounded-full bg-[#3a9e5f] px-4 py-2 text-[13.5px] font-bold text-[#04140b] transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+    >
+      Sign up
+    </Link>
+  </Show>
+
+  <Show when="signed-in">
+    <Link
+      href="/account"
+      className="flex shrink-0 items-center rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-[13.5px] font-bold text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.1] hover:shadow-lg"
+    >
+      Account
+    </Link>
+
+    <SignOutButton>
+      <button
+        type="button"
+        className="flex shrink-0 items-center rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-[13.5px] font-bold text-white/70 transition-all duration-200 hover:-translate-y-0.5 hover:border-red-400/20 hover:bg-red-400/10 hover:text-white"
+      >
+        Sign out
+      </button>
+    </SignOutButton>
+  </Show>
+
+  <Link
+    href="/contactform"
+    className="flex shrink-0 items-center gap-1.5 rounded-full bg-[#3a9e5f] px-4 py-2 text-[13.5px] font-bold text-[#04140b] transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+  >
+    Let's talk
+    <ArrowUpRight size={15} strokeWidth={2.5} />
+  </Link>
+</div>
         </div>
       </div>
     </>

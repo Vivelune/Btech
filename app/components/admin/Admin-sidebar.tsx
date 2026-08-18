@@ -47,7 +47,7 @@ export default function AdminSidebar({
             onClick={onClose}
             className="text-xl font-bold tracking-wide text-[#F5F1E8]"
           >
-            ALHAJIBTECH
+            BTECH
           </Link>
 
           <button
@@ -90,7 +90,7 @@ export default function AdminSidebar({
 
         <div className="border-t border-emerald-900/60 p-4">
           <p className="text-xs text-emerald-300/60">
-            ALHAJIBTECH Admin
+            BTECH Admin
           </p>
         </div>
       </aside>
