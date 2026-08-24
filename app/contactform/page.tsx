@@ -114,38 +114,18 @@ export default function ContactPage() {
     const form = e.currentTarget;
 
     const data = new FormData(form);
-
-<<<<<<< Updated upstream
     const payload = {
       name: data.get("name"),
       email: data.get("email"),
       service: data.get("service"),
       message: data.get("message"),
     };
-=======
-    const name = data.get("name");
-    const email = data.get("email");
-    const service = data.get("service");
-    const message = data.get("message");
->>>>>>> Stashed changes
 
     try {
       const res = await fetch("/api/leads", {
         method: "POST",
-<<<<<<< Updated upstream
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
-=======
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          service,
-          message,
-        }),
->>>>>>> Stashed changes
       });
 
       const result = await res.json();

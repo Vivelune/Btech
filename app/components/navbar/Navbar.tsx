@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import {
   Show,
   SignOutButton,
+  useUser,
 } from "@clerk/nextjs";
 
 
@@ -116,6 +117,9 @@ function searchEntries(query: string): SearchEntry[] {
 
 export default function Navbar({ className }: { className?: string }) {
   const router = useRouter();
+  const { user } = useUser();
+  const displayName =
+    user?.username ?? user?.firstName ?? user?.primaryEmailAddress?.emailAddress?.split("@")[0];
   const [active, setActive] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -354,6 +358,12 @@ export default function Navbar({ className }: { className?: string }) {
   </Show>
 
   <Show when="signed-in">
+    {displayName && (
+      <span className="hidden shrink-0 pr-1 text-[13.5px] font-semibold text-white/60 lg:inline">
+        Welcome, <span className="text-[#4ade80]">{displayName}</span>
+      </span>
+    )}
+
     <Link
       href="/account"
       className="flex shrink-0 items-center rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-[13.5px] font-bold text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.1] hover:shadow-lg"
@@ -554,6 +564,12 @@ export default function Navbar({ className }: { className?: string }) {
   </Show>
 
   <Show when="signed-in">
+    {displayName && (
+      <span className="block w-full px-1 pb-1 text-[13.5px] font-semibold text-white/60">
+        Welcome, <span className="text-[#4ade80]">{displayName}</span>
+      </span>
+    )}
+
     <Link
       href="/account"
       className="flex shrink-0 items-center rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-[13.5px] font-bold text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.1] hover:shadow-lg"

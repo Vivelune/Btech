@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
+  ClipboardList,
   Users,
   X,
 } from "lucide-react";
@@ -13,13 +14,17 @@ type AdminSidebarProps = {
   onClose: () => void;
 };
 
+const NAV_ITEMS = [
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { href: "/admin/leads", label: "Leads", icon: ClipboardList, exact: false },
+  { href: "/admin/users", label: "Users", icon: Users, exact: false },
+];
+
 export default function AdminSidebar({
   open,
   onClose,
 }: AdminSidebarProps) {
   const pathname = usePathname();
-
-  const isLeadsActive = pathname.startsWith("/admin/leads");
 
   return (
     <>
@@ -61,31 +66,27 @@ export default function AdminSidebar({
         </div>
 
         <nav className="flex-1 space-y-2 p-4">
-          <Link
-            href="/admin"
-            onClick={onClose}
-            className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-[#E8E6DC] transition hover:bg-emerald-900/60"
-          >
-            <LayoutDashboard size={20} />
-            Dashboard
-          </Link>
+          {NAV_ITEMS.map(({ href, label, icon: Icon, exact }) => {
+            const isActive = exact
+              ? pathname === href
+              : pathname.startsWith(href);
 
-          <Link
-            href="/admin/leads"
-            onClick={onClose}
-            className={`
-              flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium
-              transition
-              ${
-                isLeadsActive
-                  ? "bg-[#65FFAD] text-[#062017]"
-                  : "text-[#E8E6DC] hover:bg-emerald-900/60"
-              }
-            `}
-          >
-            <Users size={20} />
-            Leads
-          </Link>
+            return (
+              <Link
+                key={href}
+                href={href}
+                onClick={onClose}
+                className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition ${
+                  isActive
+                    ? "bg-[#65FFAD] text-[#062017]"
+                    : "text-[#E8E6DC] hover:bg-emerald-900/60"
+                }`}
+              >
+                <Icon size={20} />
+                {label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="border-t border-emerald-900/60 p-4">

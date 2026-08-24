@@ -23,10 +23,6 @@ export default async function LeadDetailsPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-<<<<<<< Updated upstream
-  const lead = await getLeadById(id);
-=======
->>>>>>> Stashed changes
 
   const lead = await prisma.lead.findUnique({
     where: {
@@ -158,9 +154,4 @@ function DetailRow({
       </div>
     </div>
   );
-<<<<<<< Updated upstream
 }
-=======
-}
-
->>>>>>> Stashed changes

@@ -1,43 +1,33 @@
-    "use client";
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
+import { getCurrentUser } from "@/lib/getCurrentUser";
+import AdminShell from "../../components/admin/AdminShell";
 
-import AdminSidebar from "@/app/components/admin/Admin-sidebar";
-import { Menu } from "lucide-react";
-import { useState } from "react";
-
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { userId } = await auth();
 
-  return (
-    <div className="min-h-screen bg-[#061A13] text-[#F5F1E8]">
-      <AdminSidebar
-        open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-      />
+  // Resource-based auth check: proxy.ts no longer gates routes by path
+  // (Clerk deprecated createRouteMatcher-based protection), so every
+  // protected page/layout checks auth() itself.
+  if (!userId) {
+    redirect("/sign-in?redirect_url=/admin");
+  }
 
-      <div className="min-h-screen lg:pl-72">
-        <header className="sticky top-0 z-30 flex h-16 items-center border-b border-emerald-900/60 bg-[#061A13]/95 px-4 backdrop-blur lg:hidden">
-          <button
-            type="button"
-            onClick={() => setSidebarOpen(true)}
-            className="rounded-lg p-2 text-[#65FFAD] hover:bg-emerald-900/50"
-            aria-label="Open sidebar"
-          >
-            <Menu size={24} />
-          </button>
+  const user = await getCurrentUser();
 
-          <span className="ml-3 font-semibold text-[#F5F1E8]">
-            BTECH DASHBOARD
-          </span>
-        </header>
+  // Signed in via Clerk but no matching Prisma row yet (webhook lag) —
+  // send them somewhere safe rather than letting them through.
+  if (!user) {
+    redirect("/account");
+  }
 
-        <main className="min-h-[calc(100vh-4rem)]">
-          {children}
-        </main>
-      </div>
-    </div>
-  );
+  if (user.role !== "ADMIN") {
+    redirect("/account");
+  }
+
+  return <AdminShell>{children}</AdminShell>;
 }
