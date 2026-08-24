@@ -62,7 +62,6 @@ export default async function LeadsPage() {
 
         {/* Leads table */}
         <div className="overflow-hidden rounded-2xl border border-emerald-900/60 bg-[#0A241B]">
-<<<<<<< Updated upstream
           {leads.length === 0 ? (
             <div className="px-6 py-16 text-center text-sm text-emerald-200/60">
               No leads yet. Submissions from the contact form will show up here.

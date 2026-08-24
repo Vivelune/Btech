@@ -13,7 +13,6 @@ model User {
   name      String?
   username  String?  @unique
   clerkId   String   @unique
-<<<<<<< Updated upstream
   role      Role     @default(USER)
   createdAt DateTime @default(now())
 }
@@ -23,12 +22,6 @@ enum Role {
   USER
 }
 
-
-=======
-  createdAt DateTime @default(now())
-}
-
->>>>>>> Stashed changes
 model Lead {
   id          String     @id @default(cuid())
   name        String
