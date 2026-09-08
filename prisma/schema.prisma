@@ -13,15 +13,10 @@ model User {
   name      String?
   username  String?  @unique
   clerkId   String   @unique
-  role      Role     @default(USER)
   createdAt DateTime @default(now())
+  role      Role     @default(USER)
 
   @@index([email])
-}
-
-enum Role {
-  ADMIN
-  USER
 }
 
 model Lead {
@@ -36,6 +31,11 @@ model Lead {
   @@index([status])
   @@index([submittedAt])
   @@index([email])
+}
+
+enum Role {
+  ADMIN
+  USER
 }
 
 enum LeadStatus {

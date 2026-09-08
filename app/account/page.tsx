@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/getCurrentUser";
 import ProfileForm from "./ProfileForm";
 
+
 const STATUS_STYLES: Record<string, string> = {
   NEW: "bg-[#4ade80]/10 text-[#4ade80] border-[#4ade80]/30",
   CONTACTED: "bg-amber-400/10 text-amber-300 border-amber-400/30",
