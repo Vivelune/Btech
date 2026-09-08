@@ -3,7 +3,15 @@
 import { useRef, useTransition } from "react";
 import { updateLeadStatus } from "./action";
 
-const STATUS_OPTIONS = ["NEW", "CONTACTED", "CONVERTED", "ARCHIVED"];
+const STATUS_OPTIONS = [
+  "NEW",
+  "CONTACTED",
+  "QUALIFIED",
+  "PROPOSAL_SENT",
+  "NEGOTIATING",
+  "WON",
+  "LOST",
+];
 
 export default function LeadStatusForm({
   leadId,

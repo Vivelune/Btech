@@ -8,13 +8,15 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  username  String?  @unique
-  clerkId   String   @unique
-  role      Role     @default(USER)
-  createdAt DateTime @default(now())
+  id            Int      @id @default(autoincrement())
+  email         String   @unique
+  name          String?
+  username      String?  @unique
+  clerkId       String   @unique
+  role          Role     @default(USER)
+  createdAt     DateTime @default(now())
+
+  assignedLeads Lead[]   @relation("LeadAssignee")
 
   @@index([email])
 }
@@ -25,22 +27,41 @@ enum Role {
 }
 
 model Lead {
-  id          String     @id @default(cuid())
-  name        String
-  email       String
-  service     String
-  message     String
-  submittedAt DateTime   @default(now())
-  status      LeadStatus @default(NEW)
+  id             String     @id @default(cuid())
+  name           String
+  email          String
+  service        String
+  message        String
+  submittedAt    DateTime   @default(now())
+  status         LeadStatus @default(NEW)
+
+  priority       Priority   @default(MEDIUM)
+  notes          String?
+  followUpDate   DateTime?
+  tags           String[]   @default([])
+  estimatedValue Float?
+
+  assignedToId   Int?
+  assignedTo     User?      @relation("LeadAssignee", fields: [assignedToId], references: [id])
 
   @@index([status])
   @@index([submittedAt])
   @@index([email])
+  @@index([assignedToId])
 }
 
 enum LeadStatus {
   NEW
   CONTACTED
-  CONVERTED
-  ARCHIVED
+  QUALIFIED
+  PROPOSAL_SENT
+  NEGOTIATING
+  WON
+  LOST
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
 }
