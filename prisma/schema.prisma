@@ -8,6 +8,7 @@ datasource db {
 }
 
 model User {
+<<<<<<< HEAD
   id            Int      @id @default(autoincrement())
   email         String   @unique
   name          String?
@@ -17,13 +18,17 @@ model User {
   createdAt     DateTime @default(now())
 
   assignedLeads Lead[]   @relation("LeadAssignee")
+=======
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  username  String?  @unique
+  clerkId   String   @unique
+  createdAt DateTime @default(now())
+  role      Role     @default(USER)
+>>>>>>> 65b82e538b8c7e773031242dd3212fed9d306a5f
 
   @@index([email])
-}
-
-enum Role {
-  ADMIN
-  USER
 }
 
 model Lead {
@@ -48,6 +53,11 @@ model Lead {
   @@index([submittedAt])
   @@index([email])
   @@index([assignedToId])
+}
+
+enum Role {
+  ADMIN
+  USER
 }
 
 enum LeadStatus {
