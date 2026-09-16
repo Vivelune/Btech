@@ -21,6 +21,12 @@ model User {
   @@index([email])
 }
 
+enum Role {
+  ADMIN
+  USER
+  SALES_REP
+}
+
 model Lead {
   id             String     @id @default(cuid())
   name           String
@@ -43,11 +49,6 @@ model Lead {
   @@index([submittedAt])
   @@index([email])
   @@index([assignedToId])
-}
-
-enum Role {
-  ADMIN
-  USER
 }
 
 enum LeadStatus {

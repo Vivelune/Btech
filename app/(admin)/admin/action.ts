@@ -20,7 +20,7 @@ const VALID_TAGS = [
   "E-commerce",
   "Maintenance",
 ] as const;
-const VALID_ROLES = ["USER", "ADMIN"] as const;
+const VALID_ROLES = ["USER", "SALES_REP", "ADMIN"] as const;
 
 async function requireAdmin() {
   const user = await getCurrentUser();
@@ -46,7 +46,7 @@ export async function updateLeadStatus(formData: FormData) {
     data: { status: status as (typeof VALID_STATUSES)[number] },
   });
 
-  revalidatePath("/admin");
+  revalidatePath("/admin/leads");
 }
 
 export type LeadFormState = {
@@ -161,5 +161,5 @@ export async function updateUserRole(formData: FormData) {
     data: { role: role as (typeof VALID_ROLES)[number] },
   });
 
-  revalidatePath("/admin");
+  revalidatePath("/admin/users");
 }

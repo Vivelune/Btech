@@ -3,7 +3,7 @@
 import { useRef, useTransition } from "react";
 import { updateUserRole } from "./action";
 
-const ROLE_OPTIONS = ["USER", "ADMIN"];
+const ROLE_OPTIONS = ["USER", "SALES_REP", "ADMIN"];
 
 export default function UserRoleForm({
   userId,
