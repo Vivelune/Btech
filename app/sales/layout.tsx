@@ -10,7 +10,7 @@ export default async function MarketingLayout({
   const { userId } = await auth();
 
   if (!userId) {
-    redirect("/sign-in?redirect_url=/marketing");
+    redirect("/sign-in?redirect_url=/sales");
   }
 
   const user = await getCurrentUser();

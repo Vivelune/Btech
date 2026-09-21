@@ -16,7 +16,9 @@ model User {
   role          Role     @default(USER)
   createdAt     DateTime @default(now())
 
-  assignedLeads Lead[]   @relation("LeadAssignee")
+  assignedLeads Lead[]     @relation("LeadAssignee")
+  sentEmails    Email[]
+  activities    Activity[]
 
   @@index([email])
 }
@@ -31,7 +33,10 @@ model Lead {
   id             String     @id @default(cuid())
   name           String
   email          String
-  service        String
+  company        String?
+  phone          String?
+  website        String?
+  service        String?
   message        String
   submittedAt    DateTime   @default(now())
   status         LeadStatus @default(NEW)
@@ -45,6 +50,9 @@ model Lead {
   assignedToId   Int?
   assignedTo     User?      @relation("LeadAssignee", fields: [assignedToId], references: [id])
 
+  emails         Email[]
+  activities     Activity[]
+
   @@index([status])
   @@index([submittedAt])
   @@index([email])
@@ -54,10 +62,11 @@ model Lead {
 enum LeadStatus {
   NEW
   CONTACTED
+  REPLIED
+  INTERESTED
+  MEETING_BOOKED
   QUALIFIED
-  PROPOSAL_SENT
-  NEGOTIATING
-  WON
+  CONVERTED
   LOST
 }
 
@@ -65,4 +74,65 @@ enum Priority {
   LOW
   MEDIUM
   HIGH
+}
+
+model Email {
+  id          String      @id @default(cuid())
+  leadId      String
+  lead        Lead        @relation(fields: [leadId], references: [id])
+
+  sentById    Int?
+  sentBy      User?       @relation(fields: [sentById], references: [id])
+
+  subject     String
+  body        String
+  status      EmailStatus @default(QUEUED)
+
+  // Resend's message id — how incoming webhooks get correlated back to
+  // this row (Delivered/Opened/Bounced events reference it, not our id).
+  providerId  String?     @unique
+
+  sentAt      DateTime?
+  deliveredAt DateTime?
+  openedAt    DateTime?
+  bouncedAt   DateTime?
+  repliedAt   DateTime?
+
+  createdAt   DateTime    @default(now())
+
+  @@index([leadId])
+  @@index([sentById])
+  @@index([status])
+}
+
+enum EmailStatus {
+  QUEUED
+  SENT
+  DELIVERED
+  OPENED
+  BOUNCED
+  REPLIED
+  FAILED
+}
+
+model Activity {
+  id        String   @id @default(cuid())
+  leadId    String
+  lead      Lead     @relation(fields: [leadId], references: [id])
+
+  userId    Int?
+  user      User?    @relation(fields: [userId], references: [id])
+
+  // Kept as a plain string rather than an enum: activity types will
+  // likely grow (status_change, note_added, email_sent, assigned,
+  // priority_changed, ai_email_generated, ...) and a string avoids a
+  // migration every time a new one is added. Validate against a known
+  // list in application code instead.
+  type      String
+  detail    String?
+
+  createdAt DateTime @default(now())
+
+  @@index([leadId])
+  @@index([createdAt])
 }

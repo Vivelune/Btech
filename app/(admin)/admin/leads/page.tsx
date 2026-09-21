@@ -1,6 +1,8 @@
 import prisma from "@/lib/prisma";
 import LeadStatusForm from "../LeadStatusForm";
 import LeadDetailsForm from "../LeadDetailsForm";
+import EmailComposer from "../../../components/admin/EmailComposer";
+import CsvImportForm from "../../../components/admin/CsvImportForm";
 
 const PRIORITY_STYLES: Record<string, string> = {
   LOW: "bg-white/[0.06] text-white/50 border-white/10",
@@ -27,9 +29,18 @@ export default async function AdminLeadsPage({
     : {};
 
   const [leads, admins] = await Promise.all([
-    prisma.lead.findMany({ where, orderBy: { submittedAt: "desc" } }),
+    prisma.lead.findMany({
+      where,
+      orderBy: { submittedAt: "desc" },
+      include: {
+        emails: {
+          orderBy: { createdAt: "desc" },
+          select: { id: true, subject: true, status: true },
+        },
+      },
+    }),
     prisma.user.findMany({
-      where: { role: "ADMIN" },
+      where: { role: { in: ["ADMIN", "SALES_REP"] } },
       orderBy: { email: "asc" },
       select: { id: true, email: true, username: true },
     }),
@@ -44,6 +55,8 @@ export default async function AdminLeadsPage({
             Leads ({leads.length})
           </h1>
         </div>
+
+        <CsvImportForm />
 
         <form method="GET" className="mb-6">
           <input
@@ -81,7 +94,9 @@ export default async function AdminLeadsPage({
                       </span>
                     </div>
                     <p className="mt-0.5 text-[13px] text-white/50">
-                      {lead.email} · {lead.service}
+                      {lead.email}
+                      {lead.company ? ` · ${lead.company}` : ""}
+                      {lead.service ? ` · ${lead.service}` : ""}
                     </p>
                     <p className="mt-0.5 text-[12px] text-white/30">
                       Submitted{" "}
@@ -157,8 +172,19 @@ export default async function AdminLeadsPage({
                         : ""
                     }
                     tags={lead.tags}
+                    company={lead.company ?? ""}
+                    phone={lead.phone ?? ""}
+                    website={lead.website ?? ""}
+                    service={lead.service ?? ""}
                     admins={admins}
                   />
+                </details>
+
+                <details className="mt-2">
+                  <summary className="cursor-pointer list-none text-[12.5px] font-semibold text-[#4ade80] transition hover:text-[#65FFAD]">
+                    Email
+                  </summary>
+                  <EmailComposer leadId={lead.id} emails={lead.emails} />
                 </details>
               </div>
             ))}

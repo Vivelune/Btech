@@ -16,6 +16,10 @@ export default function LeadDetailsForm({
   assignedToId,
   estimatedValue,
   tags,
+  company,
+  phone,
+  website,
+  service,
   admins,
 }: {
   leadId: string;
@@ -25,6 +29,10 @@ export default function LeadDetailsForm({
   assignedToId: string; // "" or numeric string
   estimatedValue: string; // "" or numeric string
   tags: string[];
+  company: string;
+  phone: string;
+  website: string;
+  service: string;
   admins: { id: number; email: string; username: string | null }[];
 }) {
   const [state, formAction, isPending] = useActionState(
@@ -37,6 +45,55 @@ export default function LeadDetailsForm({
       <input type="hidden" name="leadId" value={leadId} />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/40">
+            Company
+          </label>
+          <input
+            type="text"
+            name="company"
+            defaultValue={company}
+            className="w-full rounded-xl border border-white/10 bg-white/[0.06] px-3 py-2 text-sm text-[#F5F1E8] focus:outline-none focus:ring-1 focus:ring-[#4ade80]"
+          />
+        </div>
+
+        <div>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/40">
+            Phone
+          </label>
+          <input
+            type="text"
+            name="phone"
+            defaultValue={phone}
+            className="w-full rounded-xl border border-white/10 bg-white/[0.06] px-3 py-2 text-sm text-[#F5F1E8] focus:outline-none focus:ring-1 focus:ring-[#4ade80]"
+          />
+        </div>
+
+        <div>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/40">
+            Website
+          </label>
+          <input
+            type="text"
+            name="website"
+            defaultValue={website}
+            placeholder="https://…"
+            className="w-full rounded-xl border border-white/10 bg-white/[0.06] px-3 py-2 text-sm text-[#F5F1E8] placeholder:text-white/30 focus:outline-none focus:ring-1 focus:ring-[#4ade80]"
+          />
+        </div>
+
+        <div>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/40">
+            Service
+          </label>
+          <input
+            type="text"
+            name="service"
+            defaultValue={service}
+            className="w-full rounded-xl border border-white/10 bg-white/[0.06] px-3 py-2 text-sm text-[#F5F1E8] focus:outline-none focus:ring-1 focus:ring-[#4ade80]"
+          />
+        </div>
+
         <div>
           <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-white/40">
             Priority

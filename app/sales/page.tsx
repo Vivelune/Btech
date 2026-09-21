@@ -44,7 +44,7 @@ function BreakdownCard({
   );
 }
 
-export default async function MarketingDashboard() {
+export default async function SalesDashboard() {
   const leads = await prisma.lead.findMany({
     select: { status: true, tags: true, estimatedValue: true },
   });
@@ -69,7 +69,7 @@ export default async function MarketingDashboard() {
     <section className="min-h-screen bg-[#061A13]">
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <p className="text-sm font-medium text-[#65FFAD]">Marketing</p>
+          <p className="text-sm font-medium text-[#65FFAD]">Sales</p>
           <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#F5F1E8]">
             Dashboard
           </h1>
@@ -83,7 +83,7 @@ export default async function MarketingDashboard() {
               maximumFractionDigits: 0,
             })}`}
           />
-          <StatCard label="Won" value={statusCounts["WON"] ?? 0} />
+          <StatCard label="Converted" value={statusCounts["CONVERTED"] ?? 0} />
           <StatCard label="Lost" value={statusCounts["LOST"] ?? 0} />
         </div>
 
