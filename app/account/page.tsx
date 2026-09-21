@@ -8,10 +8,11 @@ import ProfileForm from "./ProfileForm";
 const STATUS_STYLES: Record<string, string> = {
   NEW: "bg-[#4ade80]/10 text-[#4ade80] border-[#4ade80]/30",
   CONTACTED: "bg-amber-400/10 text-amber-300 border-amber-400/30",
-  QUALIFIED: "bg-sky-400/10 text-sky-300 border-sky-400/30",
-  PROPOSAL_SENT: "bg-violet-400/10 text-violet-300 border-violet-400/30",
-  NEGOTIATING: "bg-orange-400/10 text-orange-300 border-orange-400/30",
-  WON: "bg-[#3a9e5f]/20 text-[#65FFAD] border-[#3a9e5f]/40",
+  REPLIED: "bg-sky-400/10 text-sky-300 border-sky-400/30",
+  INTERESTED: "bg-cyan-400/10 text-cyan-300 border-cyan-400/30",
+  MEETING_BOOKED: "bg-violet-400/10 text-violet-300 border-violet-400/30",
+  QUALIFIED: "bg-orange-400/10 text-orange-300 border-orange-400/30",
+  CONVERTED: "bg-[#3a9e5f]/20 text-[#65FFAD] border-[#3a9e5f]/40",
   LOST: "bg-white/[0.06] text-white/40 border-white/10",
 };
 
@@ -52,7 +53,7 @@ export default async function AccountPage() {
   }
 
   if (dbUser.role === "SALES_REP") {
-    redirect("/marketing");
+    redirect("/sales");
   }
 
   const displayName =

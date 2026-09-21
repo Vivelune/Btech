@@ -7,10 +7,11 @@ import { revalidatePath } from "next/cache";
 const VALID_STATUSES = [
   "NEW",
   "CONTACTED",
+  "REPLIED",
+  "INTERESTED",
+  "MEETING_BOOKED",
   "QUALIFIED",
-  "PROPOSAL_SENT",
-  "NEGOTIATING",
-  "WON",
+  "CONVERTED",
   "LOST",
 ] as const;
 const VALID_PRIORITIES = ["LOW", "MEDIUM", "HIGH"] as const;
@@ -74,6 +75,10 @@ export async function updateLead(
   const followUpDate = formData.get("followUpDate");
   const assignedToId = formData.get("assignedToId");
   const estimatedValue = formData.get("estimatedValue");
+  const company = formData.get("company");
+  const phone = formData.get("phone");
+  const website = formData.get("website");
+  const service = formData.get("service");
   const tags = formData
     .getAll("tags")
     .filter(
@@ -89,6 +94,10 @@ export async function updateLead(
     assignedToId?: number | null;
     estimatedValue?: number | null;
     tags?: string[];
+    company?: string | null;
+    phone?: string | null;
+    website?: string | null;
+    service?: string | null;
   } = { tags };
 
   if (
@@ -123,6 +132,22 @@ export async function updateLead(
       }
       data.estimatedValue = parsed;
     }
+  }
+
+  if (typeof company === "string") {
+    data.company = company.trim() || null;
+  }
+
+  if (typeof phone === "string") {
+    data.phone = phone.trim() || null;
+  }
+
+  if (typeof website === "string") {
+    data.website = website.trim() || null;
+  }
+
+  if (typeof service === "string") {
+    data.service = service.trim() || null;
   }
 
   try {

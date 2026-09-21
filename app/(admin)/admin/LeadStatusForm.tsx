@@ -6,10 +6,11 @@ import { updateLeadStatus } from "./action";
 const STATUS_OPTIONS = [
   "NEW",
   "CONTACTED",
+  "REPLIED",
+  "INTERESTED",
+  "MEETING_BOOKED",
   "QUALIFIED",
-  "PROPOSAL_SENT",
-  "NEGOTIATING",
-  "WON",
+  "CONVERTED",
   "LOST",
 ];
 
@@ -38,7 +39,7 @@ export default function LeadStatusForm({
       >
         {STATUS_OPTIONS.map((s) => (
           <option key={s} value={s} className="bg-[#061A13] text-[#F5F1E8]">
-            {s}
+            {s.replace("_", " ")}
           </option>
         ))}
       </select>
