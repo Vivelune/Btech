@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -10,6 +9,7 @@ import {
   UserCog,
   LogOut,
   X,
+  UsersRound,
 } from "lucide-react";
 import { SignOutButton } from "@clerk/nextjs";
 
@@ -29,6 +29,7 @@ export default function AdminSidebar({
   const isAccountManagementActive = pathname.startsWith(
     "/admin/account-management"
   );
+  const isSalesRepsActive = pathname.startsWith("/admin/sales-reps");
 
   return (
     <>
@@ -127,6 +128,24 @@ export default function AdminSidebar({
           >
             <Users size={20} />
             Users
+          </Link>
+
+          {/* Sales Reps */}
+          <Link
+            href="/admin/sales-reps"
+            onClick={onClose}
+            className={`
+              flex items-center gap-3 rounded-xl px-4 py-3
+              text-sm font-medium transition
+              ${
+                isSalesRepsActive
+                  ? "bg-[#65FFAD] text-[#062017]"
+                  : "text-[#E8E6DC] hover:bg-emerald-900/60"
+              }
+            `}
+          >
+            <UsersRound size={20} />
+            Sales Reps
           </Link>
 
           {/* Account Management */}
