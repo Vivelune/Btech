@@ -76,7 +76,7 @@ export default function Page() {
 
                 colorMutedForeground: "#B8C4BD",
 
-                colorInput: "#F5F1E8",
+                colorInput: "#FFFFFF",
 
                 colorInputForeground: "#102D22",
 
@@ -84,7 +84,7 @@ export default function Page() {
 
                 colorNeutral: "#FFFFFF",
 
-                colorBorder: "#365247",
+                colorBorder: "#52665D",
 
                 colorRing: "#65FFAD",
 
@@ -104,8 +104,9 @@ export default function Page() {
                 headerSubtitle:
                   "text-[#B8C4BD]",
 
+                /* Google / social buttons */
                 socialButtonsBlockButton:
-                  "border border-[#52665D] bg-[#FFFFFF] hover:bg-[#F1F5F2] shadow-sm",
+                  "border border-[#52665D] bg-white hover:bg-[#F1F5F2] shadow-sm",
 
                 socialButtonsBlockButtonText:
                   "text-[#102D22] font-semibold",
@@ -113,39 +114,51 @@ export default function Page() {
                 socialButtonsProviderIcon:
                   "opacity-100",
 
+                /* Divider */
                 dividerLine:
                   "bg-[#365247]",
 
                 dividerText:
                   "text-[#B8C4BD]",
 
+                /* Normal form fields */
                 formFieldLabel:
                   "text-[#E8EEE9] font-semibold",
 
                 formFieldInput:
-                  "border border-[#52665D] bg-[#F5F1E8] text-[#102D22] placeholder:text-[#5E7067] focus:border-[#65FFAD] focus:ring-[#65FFAD]",
+                  "border border-[#52665D] bg-white text-[#102D22] placeholder:text-[#5E7067] focus:border-[#65FFAD] focus:ring-[#65FFAD]",
 
+                /* Verification code inputs */
+                otpCodeFieldInput:
+                  "!bg-white !text-[#102D22] !border-[#52665D] !font-bold !text-xl focus:!border-[#65FFAD] focus:!ring-[#65FFAD]",
+
+                /* Primary button */
                 formButtonPrimary:
                   "bg-[#3a9e5f] text-[#04140b] hover:bg-[#65FFAD] font-bold shadow-md",
 
+                /* Footer */
                 footerActionText:
                   "text-[#B8C4BD]",
 
                 footerActionLink:
                   "text-[#65FFAD] hover:text-[#4ade80] font-semibold",
 
+                /* Identity preview */
                 identityPreviewText:
                   "text-[#F5F1E8]",
 
                 identityPreviewEditButton:
                   "text-[#65FFAD]",
 
+                /* Resend verification code */
                 formResendCodeLink:
-                  "text-[#65FFAD]",
+                  "text-[#65FFAD] hover:text-[#4ade80] font-semibold",
 
+                /* Errors */
                 alertText:
                   "text-red-300",
 
+                /* Form actions */
                 formFieldAction:
                   "text-[#65FFAD] hover:text-[#4ade80]",
               },
