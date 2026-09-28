@@ -84,7 +84,7 @@ export default async function LeadDetailsPage({
             <DetailRow
               icon={<Briefcase className="h-4 w-4" />}
               label="Service Needed"
-              value={lead.service}
+              value={lead.service ?? "Not specified"}
             />
 
             <DetailRow
