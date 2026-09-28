@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/getCurrentUser";
 import { revalidatePath } from "next/cache";
+import { logActivity } from "@/lib/activity";
 
 const VALID_STATUSES = [
   "NEW",
@@ -187,4 +188,40 @@ export async function updateUserRole(formData: FormData) {
   });
 
   revalidatePath("/admin/users");
+}
+
+export async function assignLead(formData: FormData) {
+  const admin = await requireAdmin();
+
+  const leadId = formData.get("leadId");
+  const assignedToId = formData.get("assignedToId");
+
+  if (typeof leadId !== "string" || !leadId) return;
+  if (typeof assignedToId !== "string") return;
+
+  const parsedAssigneeId = assignedToId ? Number(assignedToId) : null;
+  if (parsedAssigneeId !== null && Number.isNaN(parsedAssigneeId)) return;
+
+  let assigneeLabel = "Unassigned";
+  if (parsedAssigneeId !== null) {
+    const assignee = await prisma.user.findUnique({
+      where: { id: parsedAssigneeId },
+    });
+    if (assignee) assigneeLabel = assignee.username ?? assignee.email;
+  }
+
+  await prisma.lead.update({
+    where: { id: leadId },
+    data: { assignedToId: parsedAssigneeId },
+  });
+
+  await logActivity({
+    leadId,
+    userId: admin.id,
+    type: "assigned",
+    detail: `Assigned to ${assigneeLabel}`,
+  });
+
+  revalidatePath("/admin/sales-reps");
+  revalidatePath("/admin/leads");
 }

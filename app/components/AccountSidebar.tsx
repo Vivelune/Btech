@@ -2,12 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  User,
-  LayoutDashboard,
-  X,
-  LogOut,
-} from "lucide-react";
+import { User, Mail, LogOut, X } from "lucide-react";
 import { SignOutButton } from "@clerk/nextjs";
 
 type AccountSidebarProps = {
@@ -20,12 +15,7 @@ export default function AccountSidebar({
   onClose,
 }: AccountSidebarProps) {
   const pathname = usePathname();
-
-  const isAccountActive =
-    pathname === "/account";
-
-  const isProfileActive =
-    pathname.startsWith("/account/profile");
+  const isAccountActive = pathname === "/account";
 
   return (
     <>
@@ -33,12 +23,13 @@ export default function AccountSidebar({
       {open && (
         <button
           type="button"
-          aria-label="Close account sidebar"
+          aria-label="Close sidebar"
           onClick={onClose}
           className="fixed inset-0 z-40 bg-black/60 lg:hidden"
         />
       )}
 
+      {/* Sidebar */}
       <aside
         className={`
           fixed left-0 top-0 z-50 flex h-screen w-72 flex-col
@@ -48,7 +39,7 @@ export default function AccountSidebar({
           ${open ? "translate-x-0" : "-translate-x-full"}
         `}
       >
-        {/* Header */}
+        {/* Logo */}
         <div className="flex h-20 items-center justify-between border-b border-emerald-900/60 px-6">
           <Link
             href="/account"
@@ -62,7 +53,7 @@ export default function AccountSidebar({
             type="button"
             onClick={onClose}
             className="rounded-lg p-2 text-[#F5F1E8] hover:bg-emerald-900/50 lg:hidden"
-            aria-label="Close account sidebar"
+            aria-label="Close sidebar"
           >
             <X size={22} />
           </button>
@@ -83,43 +74,41 @@ export default function AccountSidebar({
               }
             `}
           >
-            <LayoutDashboard size={20} />
-            Account
+            <User size={20} />
+            My Account
           </Link>
 
           <Link
-            href="/account/profile"
+            href="/contactform"
             onClick={onClose}
-            className={`
-              flex items-center gap-3 rounded-xl px-4 py-3
-              text-sm font-medium transition
-              ${
-                isProfileActive
-                  ? "bg-[#65FFAD] text-[#062017]"
-                  : "text-[#E8E6DC] hover:bg-emerald-900/60"
-              }
-            `}
+            className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-[#E8E6DC] transition hover:bg-emerald-900/60"
           >
-            <User size={20} />
-            Profile
+            <Mail size={20} />
+            Get in Touch
           </Link>
         </nav>
 
-        {/* Sign out at bottom */}
+        {/* Bottom section */}
         <div className="border-t border-emerald-900/60 p-4">
+          <p className="mb-3 px-1 text-xs text-emerald-300/60">BTECH</p>
+
           <SignOutButton>
             <button
               type="button"
-              className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-[#E8E6DC] transition hover:bg-red-400/10 hover:text-red-300"
+              onClick={onClose}
+              className="
+                flex w-full items-center gap-3 rounded-xl
+                px-4 py-3 text-sm font-medium
+                text-[#E8E6DC]
+                transition
+                hover:bg-red-500/10
+                hover:text-red-300
+              "
             >
               <LogOut size={20} />
               Sign out
             </button>
           </SignOutButton>
-
-          <p className="mt-3 px-4 text-xs text-emerald-300/60">
-            BTECH Account
-          </p>
         </div>
       </aside>
     </>

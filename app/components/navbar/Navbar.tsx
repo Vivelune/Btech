@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -149,12 +148,15 @@ export default function Navbar({ className }: { className?: string }) {
   // NEW: User role
   // -------------------------------------------------------------------------
 
-  const [userRole, setUserRole] = useState<"ADMIN" | "USER" | null>(null);
+  const [userRole, setUserRole] = useState<
+    "ADMIN" | "USER" | "SALES_REP" | null
+  >(null);
   const [roleLoading, setRoleLoading] = useState(false);
 
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const searchWrapRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const navRef = useRef<HTMLElement>(null);
 
   const results = useMemo(() => searchEntries(query), [query]);
 
@@ -201,10 +203,12 @@ export default function Navbar({ className }: { className?: string }) {
         const data = await response.json();
 
         if (!cancelled) {
-          if (data.role === "ADMIN") {
-            setUserRole("ADMIN");
-          } else if (data.role === "USER") {
-            setUserRole("USER");
+          if (
+            data.role === "ADMIN" ||
+            data.role === "USER" ||
+            data.role === "SALES_REP"
+          ) {
+            setUserRole(data.role);
           } else {
             setUserRole(null);
           }
@@ -255,6 +259,32 @@ export default function Navbar({ className }: { className?: string }) {
   }, [query]);
 
   // -------------------------------------------------------------------------
+  // Close the mega menu on outside click/tap.
+  //
+  // Hover (onMouseEnter/onMouseLeave) is unreliable on touch devices, and
+  // the md: breakpoint puts tablets and landscape phones into this
+  // hover-menu layout, so the menus need a tap-based close path too.
+  // -------------------------------------------------------------------------
+
+  useEffect(() => {
+    if (!active) return;
+
+    const onPointerDown = (e: PointerEvent) => {
+      if (
+        navRef.current &&
+        !navRef.current.contains(e.target as Node)
+      ) {
+        setActive(null);
+      }
+    };
+
+    document.addEventListener("pointerdown", onPointerDown);
+
+    return () =>
+      document.removeEventListener("pointerdown", onPointerDown);
+  }, [active]);
+
+  // -------------------------------------------------------------------------
   // Menu handlers
   // -------------------------------------------------------------------------
 
@@ -264,6 +294,14 @@ export default function Navbar({ className }: { className?: string }) {
     }
 
     setActive(label);
+  };
+
+  const toggleMenu = (label: string) => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+    }
+
+    setActive((current) => (current === label ? null : label));
   };
 
   const scheduleClose = () => {
@@ -335,12 +373,19 @@ export default function Navbar({ className }: { className?: string }) {
   // Account/Admin destination
   // -------------------------------------------------------------------------
 
-  const accountHref = userRole === "ADMIN" ? "/admin" : "/account";
+  const accountHref =
+    userRole === "ADMIN"
+      ? "/admin"
+      : userRole === "SALES_REP"
+        ? "/sales"
+        : "/account";
 
   const accountLabel =
     userRole === "ADMIN"
       ? "Admin"
-      : "Account";
+      : userRole === "SALES_REP"
+        ? "Sales"
+        : "Account";
 
   // -------------------------------------------------------------------------
   // Render
@@ -356,6 +401,7 @@ export default function Navbar({ className }: { className?: string }) {
         )}
       >
         <nav
+          ref={navRef}
           onMouseLeave={scheduleClose}
           className={cn(
             "relative flex w-full items-center justify-between gap-2 border-b transition-all duration-500 ease-out",
@@ -394,6 +440,8 @@ export default function Navbar({ className }: { className?: string }) {
                 >
                   <button
                     type="button"
+                    onClick={() => toggleMenu(item.label)}
+                    aria-expanded={active === item.label}
                     className={cn(
                       "flex items-center gap-1 rounded-full px-3.5 py-1.5 text-[14px] font-semibold transition-colors duration-200",
                       active === item.label
@@ -570,7 +618,7 @@ export default function Navbar({ className }: { className?: string }) {
                 onClick={() =>
                   setMobileOpen((v) => !v)
                 }
-                className="flex h-9 w-9 items-center justify-center rounded-full text-white md:hidden"
+                className="flex h-11 w-11 items-center justify-center rounded-full text-white md:hidden"
                 aria-label="Toggle menu"
               >
                 {mobileOpen ? (
@@ -792,7 +840,7 @@ export default function Navbar({ className }: { className?: string }) {
                       onClick={() =>
                         setMobileOpen(false)
                       }
-                      className="flex items-center justify-center rounded-full border border-white/10 bg-white/[0.06] px-4 py-2.5 text-[13.5px] font-bold text-white transition-all hover:bg-white/[0.1]"
+                      className="flex min-h-[44px] items-center justify-center rounded-full border border-white/10 bg-white/[0.06] px-4 py-2.5 text-[13.5px] font-bold text-white transition-all hover:bg-white/[0.1]"
                     >
                       Sign in
                     </Link>
@@ -802,7 +850,7 @@ export default function Navbar({ className }: { className?: string }) {
                       onClick={() =>
                         setMobileOpen(false)
                       }
-                      className="flex items-center justify-center rounded-full bg-[#3a9e5f] px-4 py-2.5 text-[13.5px] font-bold text-[#04140b] transition-transform hover:-translate-y-0.5"
+                      className="flex min-h-[44px] items-center justify-center rounded-full bg-[#3a9e5f] px-4 py-2.5 text-[13.5px] font-bold text-[#04140b] transition-transform hover:-translate-y-0.5"
                     >
                       Sign up
                     </Link>
@@ -816,7 +864,7 @@ export default function Navbar({ className }: { className?: string }) {
                       onClick={() =>
                         setMobileOpen(false)
                       }
-                      className="flex items-center justify-center rounded-full border border-white/10 bg-white/[0.06] px-4 py-2.5 text-[13.5px] font-bold text-white transition-all hover:bg-white/[0.1]"
+                      className="flex min-h-[44px] items-center justify-center rounded-full border border-white/10 bg-white/[0.06] px-4 py-2.5 text-[13.5px] font-bold text-white transition-all hover:bg-white/[0.1]"
                     >
                       {accountLabel}
                     </Link>
@@ -829,7 +877,7 @@ export default function Navbar({ className }: { className?: string }) {
                   onClick={() =>
                     setMobileOpen(false)
                   }
-                  className="mt-2 flex items-center justify-center gap-1.5 rounded-full bg-[#3a9e5f] px-4 py-2.5 text-[13.5px] font-bold text-[#04140b] transition-transform hover:-translate-y-0.5"
+                  className="mt-2 flex min-h-[44px] items-center justify-center gap-1.5 rounded-full bg-[#3a9e5f] px-4 py-2.5 text-[13.5px] font-bold text-[#04140b] transition-transform hover:-translate-y-0.5"
                 >
                   Let's talk
 

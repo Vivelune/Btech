@@ -20,6 +20,43 @@ function canAccess(
 // behavior across a model swap.
 const MODEL = process.env.GEMINI_MODEL || "gemini-flash-latest";
 
+function isTransientGeminiError(err: unknown): boolean {
+  const message = err instanceof Error ? err.message : String(err);
+  return (
+    message.includes("503") ||
+    message.includes("UNAVAILABLE") ||
+    message.includes("429") ||
+    message.includes("RESOURCE_EXHAUSTED")
+  );
+}
+
+async function generateWithRetry(
+  params: Parameters<typeof gemini.models.generateContent>[0],
+  { maxAttempts = 3, baseDelayMs = 800 } = {}
+) {
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await gemini.models.generateContent(params);
+    } catch (err) {
+      lastError = err;
+
+      const isLastAttempt = attempt === maxAttempts;
+      if (!isTransientGeminiError(err) || isLastAttempt) {
+        throw err;
+      }
+
+      // 800ms, 1600ms, ... — 503/429 from Gemini are usually resolved
+      // within a couple of seconds of temporary overload on their end.
+      const delay = baseDelayMs * 2 ** (attempt - 1);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+
+  throw lastError;
+}
+
 export async function POST(req: NextRequest) {
   const { user, response } = await requireStaff();
   if (!user) return response!;
@@ -46,7 +83,7 @@ export async function POST(req: NextRequest) {
 
   const context = `
 Lead name: ${lead.name}
-Service interested in: ${lead.service}
+Service interested in: ${lead.service || "not specified"}
 Original inquiry message: ${lead.message}
 Pipeline status: ${lead.status}
 Priority: ${lead.priority}
@@ -66,7 +103,7 @@ Return only the email itself: a subject line and an HTML-formatted body suitable
 
   let result;
   try {
-    result = await gemini.models.generateContent({
+    result = await generateWithRetry({
       model: MODEL,
       contents: instructions,
       config: {
@@ -82,10 +119,12 @@ Return only the email itself: a subject line and an HTML-formatted body suitable
       },
     });
   } catch (err) {
-    return NextResponse.json(
-      { error: err instanceof Error ? err.message : "AI generation failed" },
-      { status: 502 }
-    );
+    const message = err instanceof Error ? err.message : "AI generation failed";
+    const friendlyMessage = isTransientGeminiError(err)
+      ? "The AI service is temporarily overloaded. Please try again in a moment."
+      : message;
+
+    return NextResponse.json({ error: friendlyMessage }, { status: 502 });
   }
 
   let parsed: { subject: string; body: string };
