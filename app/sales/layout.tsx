@@ -1,8 +1,9 @@
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 import { getCurrentUser } from "@/lib/getCurrentUser";
+import SalesShell from "@/app/components/sales/salesShell";
 
-export default async function MarketingLayout({
+export default async function SalesLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -19,9 +20,13 @@ export default async function MarketingLayout({
     redirect("/account");
   }
 
-  if (user.role !== "SALES_REP" && user.role !== "ADMIN") {
+  if (user.role === "ADMIN") {
+    redirect("/admin");
+  }
+
+  if (user.role !== "SALES_REP") {
     redirect("/account");
   }
 
-  return <>{children}</>;
+  return <SalesShell>{children}</SalesShell>;
 }
