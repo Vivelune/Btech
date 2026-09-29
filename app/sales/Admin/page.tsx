@@ -1,5 +1,5 @@
 import { ShieldCheck } from "lucide-react";
-import SalesRepAssignment from "@/app/components/sales/Admin/SalesRepAssignment";
+import SalesRepAssignment from "../../components/sales/Admin/SalesRepAssignment";
 
 export default function SalesAdminPage() {
   return (
