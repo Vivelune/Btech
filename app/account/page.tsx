@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/getCurrentUser";
 import ProfileForm from "./ProfileForm";
@@ -17,15 +16,9 @@ const STATUS_STYLES: Record<string, string> = {
 };
 
 export default async function AccountPage() {
-  const { userId } = await auth();
-
-  // Resource-based auth check: proxy.ts no longer gates routes by path
-  // (Clerk deprecated createRouteMatcher-based protection), so every
-  // protected page checks auth() itself.
-  if (!userId) {
-    redirect("/sign-in?redirect_url=/account");
-  }
-
+  // Auth check and role-based redirects (ADMIN -> /admin,
+  // SALES_REP -> /sales) live in app/account/layout.tsx, which wraps
+  // this page — no need to duplicate that here.
   const dbUser = await getCurrentUser();
   const clerkUser = await currentUser();
 
@@ -46,16 +39,6 @@ export default async function AccountPage() {
     );
   }
 
-  // Each role lands on its own dashboard — /account is the shared
-  // "USER" landing spot only.
-  if (dbUser.role === "ADMIN") {
-    redirect("/admin");
-  }
-
-  if (dbUser.role === "SALES_REP") {
-    redirect("/sales");
-  }
-
   const displayName =
     dbUser.username ??
     dbUser.name?.trim() ??
@@ -68,20 +51,18 @@ export default async function AccountPage() {
   });
 
   return (
-    <section className="min-h-screen bg-[#061A13] pt-32 pb-16">
+    <section className="min-h-screen bg-[#061A13] pt-8 pb-16 sm:pt-32">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-10 flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="text-sm font-medium text-[#65FFAD]">My Account</p>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#F5F1E8]">
-              Welcome, {displayName}
-            </h1>
-          </div>
+        <div className="mb-8 sm:mb-10">
+          <p className="text-sm font-medium text-[#65FFAD]">My Account</p>
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-[#F5F1E8] sm:text-3xl">
+            Welcome, {displayName}
+          </h1>
         </div>
 
         {/* Status card */}
-        <div className="mb-10 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+        <div className="mb-8 rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:mb-10 sm:p-6">
           <p className="text-xs font-semibold uppercase tracking-wide text-white/40">
             Account status
           </p>
@@ -89,12 +70,14 @@ export default async function AccountPage() {
             <span className="rounded-full border border-[#3a9e5f]/40 bg-[#3a9e5f]/10 px-3 py-1 text-[13px] font-bold text-[#65FFAD]">
               Active User
             </span>
-            <span className="text-sm text-white/50">{dbUser.email}</span>
+            <span className="break-all text-sm text-white/50">
+              {dbUser.email}
+            </span>
           </div>
         </div>
 
         {/* Profile settings */}
-        <div className="mb-10 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+        <div className="mb-8 rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:mb-10 sm:p-6">
           <p className="mb-4 text-xs font-semibold uppercase tracking-wide text-white/40">
             Profile settings
           </p>
@@ -123,11 +106,11 @@ export default async function AccountPage() {
               {leads.map((lead) => (
                 <div
                   key={lead.id}
-                  className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-5"
+                  className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between"
                 >
                   <div>
                     <p className="text-[14.5px] font-bold text-[#F5F1E8]">
-                      {lead.service}
+                      {lead.service || "General inquiry"}
                     </p>
                     <p className="mt-1 text-[13px] text-white/50">
                       Submitted{" "}
@@ -140,7 +123,7 @@ export default async function AccountPage() {
                   </div>
 
                   <span
-                    className={`rounded-full border px-3 py-1 text-[12px] font-bold uppercase tracking-wide ${
+                    className={`self-start rounded-full border px-3 py-1 text-[12px] font-bold uppercase tracking-wide sm:self-auto ${
                       STATUS_STYLES[lead.status] ?? STATUS_STYLES.NEW
                     }`}
                   >
