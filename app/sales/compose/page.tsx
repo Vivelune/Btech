@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
+import type { ComponentType } from "react";
 import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/getCurrentUser";
-import EmailCompose from "@/app/components/sales/email-compose";
+import ComposeForm from "@/app/components/sales/compose/ComposeForm";
 
 export default async function ComposePage() {
   const user = await getCurrentUser();
@@ -31,6 +32,10 @@ export default async function ComposePage() {
     service: lead.service ?? "",
   }));
 
+  const ComposeFormWithLeads = ComposeForm as unknown as ComponentType<{
+    leads: typeof normalizedLeads;
+  }>;
+
   return (
     <section className="min-h-screen bg-[#061A13]">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -48,9 +53,7 @@ export default async function ComposePage() {
           </p>
         </div>
 
-        <EmailCompose
-          leads={normalizedLeads}
-        />
+        <ComposeFormWithLeads leads={normalizedLeads} />
       </div>
     </section>
   );

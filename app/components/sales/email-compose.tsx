@@ -70,7 +70,7 @@ export default function EmailCompose({
 
     try {
       const response = await fetch(
-        "/api/leads/ai-email",
+        "/api/leads/ai-generate-email",
         {
           method: "POST",
           headers: {
