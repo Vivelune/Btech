@@ -47,4 +47,3 @@ export async function getLeadById(
 
   return row ? toLead(row) : undefined;
 }
-

@@ -18,7 +18,6 @@ export default function SalesShell({
         onClose={() => setOpen(false)}
       />
 
-      {/* Mobile top bar */}
       <div className="flex h-16 items-center border-b border-emerald-900/60 bg-[#061A13] px-4 lg:hidden">
         <button
           type="button"
@@ -34,7 +33,6 @@ export default function SalesShell({
         </span>
       </div>
 
-      {/* Main content */}
       <main className="lg:pl-72">
         {children}
       </main>

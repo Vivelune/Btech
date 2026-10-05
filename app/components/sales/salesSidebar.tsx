@@ -48,7 +48,6 @@ export default function SalesSidebar({
 
   return (
     <>
-      {/* Mobile overlay */}
       {open && (
         <button
           type="button"
@@ -58,17 +57,11 @@ export default function SalesSidebar({
         />
       )}
 
-      {/* Sidebar */}
       <aside
-        className={`
-          fixed left-0 top-0 z-50 flex h-screen w-72 flex-col
-          border-r border-emerald-900/60 bg-[#0A241B]
-          transition-transform duration-300
-          lg:translate-x-0
-          ${open ? "translate-x-0" : "-translate-x-full"}
-        `}
+        className={`fixed left-0 top-0 z-50 flex h-screen w-72 flex-col border-r border-emerald-900/60 bg-[#0A241B] transition-transform duration-300 lg:translate-x-0 ${
+          open ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
-        {/* Logo */}
         <div className="flex h-20 items-center justify-between border-b border-emerald-900/60 px-6">
           <Link
             href="/sales"
@@ -92,14 +85,12 @@ export default function SalesSidebar({
           </button>
         </div>
 
-        {/* Sales label */}
         <div className="px-5 pt-6">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#65FFAD]">
             Sales Workspace
           </p>
         </div>
 
-        {/* Navigation */}
         <nav className="flex-1 space-y-2 p-4">
           {navigation.map((item) => {
             const Icon = item.icon;
@@ -114,15 +105,11 @@ export default function SalesSidebar({
                 key={item.href}
                 href={item.href}
                 onClick={onClose}
-                className={`
-                  flex items-center gap-3 rounded-xl px-4 py-3
-                  text-sm font-medium transition
-                  ${
-                    isActive
-                      ? "bg-[#65FFAD] text-[#062017]"
-                      : "text-[#E8E6DC] hover:bg-emerald-900/60"
-                  }
-                `}
+                className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition ${
+                  isActive
+                    ? "bg-[#65FFAD] text-[#062017]"
+                    : "text-[#E8E6DC] hover:bg-emerald-900/60"
+                }`}
               >
                 <Icon size={20} />
                 {item.label}
@@ -131,7 +118,6 @@ export default function SalesSidebar({
           })}
         </nav>
 
-        {/* Bottom */}
         <div className="border-t border-emerald-900/60 p-4">
           <p className="mb-3 px-1 text-xs text-emerald-300/60">
             BTECH Sales
@@ -141,14 +127,7 @@ export default function SalesSidebar({
             <button
               type="button"
               onClick={onClose}
-              className="
-                flex w-full items-center gap-3 rounded-xl
-                px-4 py-3 text-sm font-medium
-                text-[#E8E6DC]
-                transition
-                hover:bg-red-500/10
-                hover:text-red-300
-              "
+              className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-[#E8E6DC] transition hover:bg-red-500/10 hover:text-red-300"
             >
               <LogOut size={20} />
               Sign out

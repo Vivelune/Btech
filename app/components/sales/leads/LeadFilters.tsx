@@ -1,16 +1,9 @@
 "use client";
 
-export type LeadStatus =
-  | "NEW"
-  | "CONTACTED"
-  | "REPLIED"
-  | "INTERESTED"
-  | "MEETING_BOOKED"
-  | "QUALIFIED"
-  | "CONVERTED"
-  | "LOST";
+import type { LeadStatus } from "./LeadStatusDropdown";
 
-const statuses: { value: LeadStatus; label: string }[] = [
+const statuses: { value: LeadStatus | "ALL"; label: string }[] = [
+  { value: "ALL", label: "All statuses" },
   { value: "NEW", label: "New" },
   { value: "CONTACTED", label: "Contacted" },
   { value: "REPLIED", label: "Replied" },
@@ -21,23 +14,20 @@ const statuses: { value: LeadStatus; label: string }[] = [
   { value: "LOST", label: "Lost" },
 ];
 
-export default function LeadStatusDropdown({
+export default function LeadFilter({
   value,
   onChange,
-  disabled = false,
 }: {
-  value: LeadStatus;
-  onChange: (status: LeadStatus) => void;
-  disabled?: boolean;
+  value: LeadStatus | "ALL";
+  onChange: (value: LeadStatus | "ALL") => void;
 }) {
   return (
     <select
       value={value}
-      disabled={disabled}
       onChange={(event) =>
-        onChange(event.target.value as LeadStatus)
+        onChange(event.target.value as LeadStatus | "ALL")
       }
-      className="rounded-lg border border-white/10 bg-[#061A13] px-3 py-2 text-sm text-[#F5F1E8] outline-none focus:border-[#65FFAD]/50 disabled:cursor-not-allowed disabled:opacity-50"
+      className="rounded-xl border border-white/10 bg-[#0A241B] px-4 py-3 text-sm text-[#F5F1E8] outline-none focus:border-[#65FFAD]/50"
     >
       {statuses.map((status) => (
         <option key={status.value} value={status.value}>

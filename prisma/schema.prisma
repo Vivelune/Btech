@@ -147,4 +147,3 @@ model Activity {
   @@index([leadId])
   @@index([createdAt])
 }
-
