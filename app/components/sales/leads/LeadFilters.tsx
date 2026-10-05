@@ -1,6 +1,6 @@
 "use client";
 
-import type { LeadStatus } from "./LeadStatusDropdown";
+import type { LeadStatus } from "./leadStatusDropdown";
 
 const statuses: { value: LeadStatus | "ALL"; label: string }[] = [
   { value: "ALL", label: "All statuses" },
