@@ -9,11 +9,11 @@ import {
 } from "lucide-react";
 
 import LeadStatusBadge from "./LeadStatusBadge";
-import LeadSearch from "./LeadSearch";
+import LeadSearch from "./leadSearch";
 import LeadFilter from "./LeadFilters";
 import LeadStatusDropdown, {
   type LeadStatus,
-} from "./LeadStatusDropdown";
+} from "./leadStatusDropdown";
 
 type LeadPriority = "LOW" | "MEDIUM" | "HIGH";
 

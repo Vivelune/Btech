@@ -1,4 +1,4 @@
-import type { LeadStatus } from "@/app/components/sales/leads/LeadStatusDropdown";
+import type { LeadStatus } from "@/app/components/sales/leads/leadStatusDropdown";
 
 const statusLabels: Record<LeadStatus, string> = {
   NEW: "New",
