@@ -115,6 +115,17 @@ enum EmailStatus {
   FAILED
 }
 
+// A role pre-registered by an admin for an email that hasn't signed up
+// yet (Account Management "Create Account"). Consumed and deleted the
+// moment that email actually creates a User row — see
+// lib/pendingRole.ts, lib/getCurrentUser.ts, and the Clerk webhook.
+model PendingRoleAssignment {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  role      Role
+  createdAt DateTime @default(now())
+}
+
 model Activity {
   id        String   @id @default(cuid())
   leadId    String

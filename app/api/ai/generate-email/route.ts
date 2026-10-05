@@ -15,6 +15,43 @@ function canAccess(
 const MODEL =
   process.env.GEMINI_MODEL || "gemini-flash-latest";
 
+function isTransientGeminiError(err: unknown): boolean {
+  const message = err instanceof Error ? err.message : String(err);
+  return (
+    message.includes("503") ||
+    message.includes("UNAVAILABLE") ||
+    message.includes("429") ||
+    message.includes("RESOURCE_EXHAUSTED")
+  );
+}
+
+async function generateWithRetry(
+  params: Parameters<typeof gemini.models.generateContent>[0],
+  { maxAttempts = 3, baseDelayMs = 800 } = {}
+) {
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await gemini.models.generateContent(params);
+    } catch (err) {
+      lastError = err;
+
+      const isLastAttempt = attempt === maxAttempts;
+      if (!isTransientGeminiError(err) || isLastAttempt) {
+        throw err;
+      }
+
+      // 800ms, 1600ms, ... — 503/429 from Gemini are usually resolved
+      // within a couple of seconds of temporary overload on their end.
+      const delay = baseDelayMs * 2 ** (attempt - 1);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+
+  throw lastError;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { user, response } = await requireStaff();
@@ -107,85 +144,34 @@ Unless the sender's instructions specify another signature, sign off as:
 The Team
 `.trim();
 
-    let result;
-
-    const MAX_RETRIES = 3;
-
-    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
-      try {
-        result = await gemini.models.generateContent({
-          model: MODEL,
-          contents: instructions,
-          config: {
-            responseMimeType: "application/json",
-            responseSchema: {
-              type: "object",
-              properties: {
-                subject: {
-                  type: "string",
-                },
-                body: {
-                  type: "string",
-                },
-              },
-              required: ["subject", "body"],
+    let result: Awaited<ReturnType<typeof gemini.models.generateContent>>;
+    try {
+      result = await generateWithRetry({
+        model: MODEL,
+        contents: instructions,
+        config: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: "object",
+            properties: {
+              subject: { type: "string" },
+              body: { type: "string" },
             },
+            required: ["subject", "body"],
           },
-        });
-
-        // Gemini succeeded, so stop retrying.
-        break;
-      } catch (err) {
-        console.error(
-          `Gemini generation attempt ${attempt}/${MAX_RETRIES} failed:`,
-          err
-        );
-
-        const errorStatus =
-          typeof err === "object" &&
-          err !== null &&
-          "status" in err
-            ? (err as { status?: number }).status
-            : undefined;
-
-        // Only retry temporary service-unavailable errors.
-        if (errorStatus !== 503 || attempt === MAX_RETRIES) {
-          return NextResponse.json(
-            {
-              error:
-                errorStatus === 503
-                  ? "The AI service is temporarily busy. Please try again in a moment."
-                  : err instanceof Error
-                    ? err.message
-                    : "AI generation failed",
-            },
-            {
-              status: errorStatus === 503 ? 503 : 502,
-            }
-          );
-        }
-
-        // Wait before retrying:
-        // Attempt 1 -> 1.5 seconds
-        // Attempt 2 -> 3 seconds
-        const delay = attempt * 1500;
-
-        await new Promise((resolve) =>
-          setTimeout(resolve, delay)
-        );
-      }
-    }
-
-    // Make sure Gemini actually returned a result.
-    if (!result) {
+        },
+      });
+    } catch (err) {
+      console.error("Gemini email generation failed:", err);
       return NextResponse.json(
         {
-          error:
-            "AI generation failed. No response was received.",
+          error: isTransientGeminiError(err)
+            ? "The AI service is temporarily overloaded. Please try again in a moment."
+            : err instanceof Error
+              ? err.message
+              : "AI generation failed",
         },
-        {
-          status: 502,
-        }
+        { status: 502 }
       );
     }
 
